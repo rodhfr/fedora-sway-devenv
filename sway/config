@@ -344,8 +344,8 @@ bindsym $mod+Tab workspace back_and_forth
 # Launch Menu Launcher
 bindsym $mod+c exec --no-startup-id rofi -show drun -theme dmenu
 # launch clipboard manager
-bindsym $mod+u exec rofi -modi clipboard:~/.config/sway/cliphist-rofi-img -show clipboard -show-icons -theme rounded-gray-dark
-bindsym $mod+o exec rofi -modi clipboard:~/.config/sway/cliphist-rofi-img -show clipboard -show-icons -theme fullscreen-preview-clipboard -filter "binary"
+bindsym $mod+u exec rofi -modi clipboard:~/.config/sway/clipboard/cliphist-rofi-img -show clipboard -show-icons -theme rounded-gray-dark
+bindsym $mod+o exec rofi -modi clipboard:~/.config/sway/clipboard/cliphist-rofi-img -show clipboard -show-icons -theme fullscreen-preview-clipboard -filter "binary"
 # send clipboard to pushbullet
 bindsym $mod+Shift+u exec ~/.config/sway/clipboard/pushbullet/sendclipboard
 

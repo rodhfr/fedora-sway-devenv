@@ -2,6 +2,7 @@
 --max-fps=60
 --print-fps
 --max-size 1280
+--video-codec=h265
 
 # Shortcuts
 Mod+Up = Upper Volume

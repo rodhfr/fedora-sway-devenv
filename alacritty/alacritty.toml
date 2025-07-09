@@ -31,6 +31,8 @@ bindings = [
   { key = "M", mods = "Control|Shift", chars = "cd ~/.config/sway\nls\n" },
   { key = "A", mods = "Control|Shift", chars = "nvim ~/.config/alacritty/alacritty.toml\n" },
   { key = "S", mods = "Alt|Control|Shift", chars = "swayhide $SCRCPYCMD \n" },
+  { key = "M", mods = "Alt|Control|Shift", chars = "swayhide $SCRCPYA20 \n" },
+  { key = "N", mods = "Alt|Control|Shift", chars = "swayhide $SCRCPYA35 \n" },
   { key = "D", mods = "Alt|Control|Shift", chars = "docker exec -it container-name /bin/bash" },
 ]
 
