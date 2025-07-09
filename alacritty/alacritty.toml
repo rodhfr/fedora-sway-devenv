@@ -1,0 +1,38 @@
+[window]
+opacity = 0.7
+
+[colors.primary]
+background = "#000000"
+
+
+[font]
+size = 14
+
+[font.normal]
+family = "CaskaydiaCove Nerd Font Mono"
+
+[keyboard]
+bindings = [
+  # { key = "V", mods = "Control", action = "ToggleViMode" },
+  { key = ".", mods = "Control", chars = "cd ..\nls\n" },
+  { key = ",", mods = "Control", chars = "ls\n" },
+  { key = "L", mods = "Control|Shift", chars = "ls\n" },
+  { key = "B", mods = "Control|Shift", chars = "clear \n" },
+  { key = "W", mods = "Control|Shift", chars = "| wl-copy" },
+  { key = "P", mods = "Control|Shift", chars = "pwd | wl-copy\n" },
+  { key = "N", mods = "Control|Shift", chars = "nvim " },
+  { key = "E", mods = "Control|Shift", chars = "exit \n" },
+  { key = "Y", mods = "Control|Shift", chars = "nautilus . &\nexit\n" },
+  { key = "D", mods = "Control|Shift", chars = "cd ~/dockernew/\nls\n" },
+  { key = "H", mods = "Control|Shift", chars = "cd /mnt/largehd\nls\n" },
+  { key = "S", mods = "Control|Shift", chars = "/bin/bash /home/rodhfr/.config/alacritty/celularssh.sh\n"},
+  { key = "K", mods = "Control|Shift", chars = "cd ~/.config/sway/keyd/\nls\n" },
+  { key = "X", mods = "Control|Shift", chars = "cd ~/.config/\nls\n" },
+  { key = "M", mods = "Control|Shift", chars = "cd ~/.config/sway\nls\n" },
+  { key = "A", mods = "Control|Shift", chars = "nvim ~/.config/alacritty/alacritty.toml\n" },
+  { key = "S", mods = "Alt|Control|Shift", chars = "swayhide $SCRCPYCMD \n" },
+  { key = "D", mods = "Alt|Control|Shift", chars = "docker exec -it container-name /bin/bash" },
+]
+
+
+

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+DEVICE="84:AC:60:E6:45:58"
+NAME="QCY-T13 ANC"
+
+notify-send -t 1000 "Bluetooth" "🔄 Tentando desconectar do $NAME..."
+
+# Envia comando de desconexão
+bluetoothctl <<< "disconnect $DEVICE" > /dev/null

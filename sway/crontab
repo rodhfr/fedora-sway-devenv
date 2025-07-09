@@ -1,0 +1,6 @@
+@weekly rm -rf $HOME/Logs/ 2>&1
+@daily mkdir -p $HOME/Logs/
+@daily cp $HOME/.bashrc $HOME/.config/sway/bashrc > $HOME/Logs/bashrclog 2>&1
+@daily crontab -l > $HOME/.config/sway/crontab
+0 0 */3 * * /bin/bash /home/rodhfr/Backup/dockernew/backup.sh
+

@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+# Send clipboard contents to Pushbullet using wl-paste
+
+# ⚠️ Put your Pushbullet Access Token below (from https://www.pushbullet.com/account)
+# in the .env file
+if [[ -f .env ]]; then
+  source .env
+else
+  echo ".env file not found!"
+  exit 1
+fi
+
+# Grab clipboard text (no trailing newline)
+CLIP=$(wl-paste --no-newline)
+
+# Check clipboard isn't empty
+if [[ -z "$CLIP" ]]; then
+  echo "Clipboard is empty. Nothing to send."
+  exit 1
+fi
+
+# Construct JSON payload
+read -r -d '' PAYLOAD <<EOF
+{
+  "type": "note",
+  "title": "Clipboard pushed via wl-paste",
+  "body": $(printf '%s' "$CLIP" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read()))')
+}
+EOF
+
+response=$(curl -s -w "%{http_code}" \
+  --header "Authorization: Bearer $ACCESS_TOKEN" \
+  --header "Content-Type: application/json" \
+  --data-binary "$PAYLOAD" \
+  https://api.pushbullet.com/v2/pushes)
+
+http_code="${response: -3}"
+body="${response:: -3}"
+
+if [[ "$http_code" == "200" ]]; then
+  echo "$body" | jq
+  echo "✅ clipboard sent to pushbullet!"
+  notify-send -t 1000 "✅ clipboard sent to pushbullet!"
+else
+  echo "❌ Failed to send clipboard: HTTP $http_code"
+fi
+

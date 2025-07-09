@@ -1,0 +1,11 @@
+#!/bin/bash
+
+DEVICE="84:AC:60:E6:45:58"
+NAME="QCY-T13 ANC"
+
+notify-send -t 4000 "Bluetooth" "🔄 Tentando conectar ao $NAME..."
+
+# Captura a saída da tentativa de conexão
+OUTPUT=$(bluetoothctl <<< "connect $DEVICE")
+
+

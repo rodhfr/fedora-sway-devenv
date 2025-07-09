@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+tmp_dir="/tmp/cliphist"
+rm -rf "$tmp_dir"
+mkdir -p "$tmp_dir"
+
+# Se houve clique no item, copiar ele pro clipboard
+if [[ -n "$1" ]]; then
+    cliphist decode <<<"$1" | wl-copy
+    exit
+fi
+
+# Gera ícones e exibe apenas entradas binárias que são imagens
+cliphist list | while read -r line; do
+    id=$(awk '{print $1}' <<< "$line")
+    mime_type=$(cliphist decode <<< "$id" | file --mime-type - | awk '{print $2}')
+    
+    if [[ "$mime_type" == image/* ]]; then
+        ext="${mime_type##*/}"
+        path="$tmp_dir/$id.$ext"
+        cliphist decode <<< "$id" > "$path"
+        echo -e "$line\0icon\x1f$path"
+    fi
+done
+

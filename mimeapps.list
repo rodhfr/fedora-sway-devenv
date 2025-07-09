@@ -1,0 +1,8 @@
+[Default Applications]
+inode/directory=nautilus.desktop
+video/x-matroska=mpv.desktop
+application/pdf=org.mozilla.firefox.desktop
+
+[Added Associations]
+video/x-matroska=mpv.desktop;
+application/pdf=org.mozilla.firefox.desktop;

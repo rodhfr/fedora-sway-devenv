@@ -1,0 +1,37 @@
+# ~/.config/pipewire/pipewire.conf.d/my-snapcast-discover.conf
+
+context.modules = [
+{   name = libpipewire-module-snapcast-discover
+    args = {
+        stream.rules = [
+            {   matches = [
+                    {    snapcast.ip = "~.*"
+                         #snapcast.ifindex = 1
+                         #snapcast.ifname = eth0
+                         #snapcast.port = 1000
+                         #snapcast.name = ""
+                         #snapcast.hostname = ""
+                         #snapcast.domain = ""
+                    }
+                ]
+                actions = {
+                    create-stream = {
+                        audio.rate = 12000
+                        audio.format = S16LE   # S16LE, S24_32LE, S32LE
+                        audio.channels = 1
+                        audio.position = [ FL FR ]
+                        #
+                        snapcast.stream-name = "PipeWire"
+                        #
+                        capture = true
+                        capture.props = {
+                            target.object = ""
+                            media.class = "Audio/Sink"
+                        }
+                    }
+                }
+            }
+        ]
+    }
+}
+]

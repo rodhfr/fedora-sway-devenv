@@ -1,0 +1,419 @@
+# @rodhfr sway monolitic config file
+
+
+
+############################# Modifier Keys ############################################
+## Main Modifier Key
+set $mod mod1
+# mod4 is Super. mod1 is alt. It is possible to set other modifier keys check in sway manual.
+
+## Drag Window Modifier
+floating_modifier $mod
+# This is for back and forth workspaces
+workspace_auto_back_and_forth yes
+########################################################################################
+
+
+
+############################# Modifier Keys ############################################
+
+set $tty alacritty
+set $alttty foot
+set $alt2tty kitty
+########################################################################################
+
+
+################################# Font for Window Title ################################
+font pango:monospace 12
+# Will also be used by the bar unless a different font is used in the bar {} block below.
+########################################################################################
+
+
+
+############################# Exec Manager #############################################
+### MAKE XDG WORK:
+## Put the following to bashrc to this xdg wayland nonsense to work
+#export XDG_CURRENT_DESKTOP=sway # xdg-desktop-portal
+#export XDG_SESSION_DESKTOP=sway # systemd
+#export XDG_SESSION_TYPE=wayland
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+# Start XDG autostart .desktop files using dex. See also
+# https://wiki.archlinux.org/index.php/XDG_Autostart
+exec dex-autostart --autostart --environment sway
+# Dark gnome theme for libadwaita apps
+exec gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+exec waybar
+# Start polkit for authentication
+exec /usr/bin/lxpolkit
+exec /usr/libexec/gvfsd &
+exec /usr/libexec/gvfsd-fuse /run/user/$(id -u)/gvfs -f &
+exec /usr/libexec/gvfs-udisks2-volume-monitor &
+exec /usr/libexec/gvfs-mtp-volume-monitor &
+
+# Start script for waybar
+exec_always "~/.config/sway/start_waybar.workstation"
+# Start notification daemon
+exec_always swaync
+# Start autotiling for dynamic window tiling
+exec_always autotiling 
+# auto restart wayvnc (any changes with display doesn't break wayvnc)
+#exec_always bash -c 'systemctl --user restart wayvnc.service'
+exec wl-paste --watch cliphist store
+exec wl-paste --type image --watch cliphist store
+exec snapserver -d
+#exec clipse -listen
+
+## Experimental:
+#exec audiorelay_run
+########################################################################################
+
+
+
+############################### Display Output #########################################
+output HDMI-A-1 pos 0 0 resolution 1920x1080@74.973Hz
+output eDP-1 pos 1920 0
+
+#output HEADLESS-1 resolution 1920x1080@30Hz position 3840 0
+output HEADLESS-1 resolution 1280x720@60Hz position 3840 0
+# output "HEADLESS-1" resolution 1600x720@30Hz position $toset scale 1.2
+
+workspace 1 output HDMI-A-1
+workspace 2 output HDMI-A-1
+workspace 3 output HDMI-A-1
+workspace 4 output HDMI-A-1
+workspace 5 output HDMI-A-1
+workspace 6 output HDMI-A-1
+workspace 7 output HDMI-A-1
+workspace 8 output HDMI-A-1
+workspace 9 output eDP-1
+workspace 10 output HEADLESS-1
+########################################################################################
+
+
+
+############################### Wallpaper Config #######################################
+# Wallpaper folder location
+set $wallpapers_path ~/.config/Wallpapers
+# Randomly select a wallpaper from the folder $wallpapers_path
+output * bg `find $wallpapers_path -type f | shuf -n 1` fill
+bindsym $mod+Shift+w output * bg `find $wallpapers_path -type f | shuf -n 1` fill
+
+## Experimental:
+# There is this program called azote that does the same as the above but with GUI.
+#exec ~/.azotebg
+########################################################################################
+
+
+
+############################### Window Rules ###########################################
+#assign [class="BoltLauncher"] workspace 1
+#assign [class="net-runelite-client-RuneLite"] workspace 1
+for_window [app_id="mpv"] sticky enable, floating enable, resize set width 400px height 225px, move position 1500 10
+for_window [app_id="clipse"] floating enable, move position center, resize set 80ppt 80ppt # style window to look nice
+########################################################################################
+
+
+
+############################### Input Config ###########################################
+# compose:menu for keyd program to work
+input * xkb_options "compose:menu" 
+
+input "1267:12447:ELAN1200:00_04F3:309F_Touchpad" {
+    tap enabled # Enable tap to click
+}
+
+input "9610:42:SINO_WEALTH_Gaming_KB__Mouse" {
+    accel_profile "flat" # Disable Mouse Acceleration
+    pointer_accel 1 # Mouse Sensitivity
+}
+
+input "1133:45110:Pebble_M350s_Mouse" {
+    accel_profile "flat"
+    pointer_accel 0
+}
+
+input "4012:6878:keyd_virtual_pointer" {
+    accel_profile "flat"
+    pointer_accel 0
+}
+
+input "1267:12447:ELAN1200:00_04F3:309F_Mouse" {
+    accel_profile "flat"
+    pointer_accel 0
+}
+
+## Experimental:
+#input type:keyboard {
+#    xkb_layout us,br
+#    xkb_options grp:rctrl_toggle
+#}
+########################################################################################
+
+
+
+################################# System Controls #######################################
+# Reload the Configuration File
+bindsym $mod+Shift+c reload
+# Restart Sway (preserves your layout/session, can be used to upgrade sway)
+bindsym $mod+Shift+r restart
+# Exit Sway
+bindsym $mod+Shift+e exec "swaymsg exit"
+# Volume Control
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% 
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% 
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle 
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle 
+# Brightness Control
+bindsym XF86MonBrightnessUp exec brightnessctl set 10%+
+bindsym XF86MonBrightnessDown exec brightnessctl set 10%-
+bindsym $mod+Shift+i exec brightnessctl set 10%+
+bindsym $mod+Shift+j exec brightnessctl set 10%-
+# Dimmer Control
+bindsym $mod+g exec brightnessctl set 1 && pkill dim
+bindsym $mod+Shift+g exec dim -d 0 -p -a 0.4
+bindsym $mod+Ctrl+g exec pkill dim  
+# Xkill Mode
+bindsym $mod+x mode "xkill"
+mode "xkill" {
+bindsym --whole-window button1 kill
+bindsym Escape mode "default"
+bindsym Return mode "default"
+}
+# Media Control
+bindsym F13 exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+ 
+bindsym F12 exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05- 
+bindsym F10 exec playerctl play-pause && notify-send -t 1000 "⏯️ Play/Pause"
+bindsym F11 exec pactl set-sink-mute @DEFAULT_SINK@ toggle && notify-send -t 1000 "🔇/📢 Mute toggled"
+#bindsym Shift+0 exec playerctl next
+#bindsym Shift+9 exec playerctl previous
+bindsym $mod+Shift+b exec ~/.config/sway/bluetooth/connect/qcyt13anc
+bindsym $mod+Ctrl+b exec ~/.config/sway/bluetooth/disconnect/qcyt13anc
+########################################################################################
+
+
+
+################################# Hotswap Output Modes #################################
+# HDMI-A-1 only
+#bindsym $mod+m output "eDP-1" disable ; output "HDMI-A-1" scale 3 
+# HDMI-A-1 on ; eDP-1 off
+bindsym $mod+Ctrl+m output "eDP-1" disable ; output "HDMI-A-1" enable ; output "HDMI-A-1" scale 1 
+#; exec bash -c 'sleep 0.3 && systemctl --user restart wayvnc.service'
+# eDP-1 on ; HDMI-A-1 on
+bindsym $mod+Shift+m output "eDP-1" enable ; output "HDMI-A-1" enable ; output "HDMI-A-1" scale 1 
+#; exec bash -c 'sleep 0.3 && systemctl --user restart wayvnc.service' 
+
+## Experimental:
+# eDP-1 on ; HDMI-A-1 off ; HEADLESS-1 off
+#bindsym $mod+Ctrl+s output "eDP-1" enable ; output "HDMI-A-1" disable ; output "HEADLESS-1" disable 
+# HDMI-A-1 on ; eDP-1 off ; HEADLESS-1 on
+#bindsym $mod+Shift+s exec output "HDMI-A-1" disable ; output "eDP-1" disable ;  
+########################################################################################
+
+
+
+################################# Window Management Hotkeys ############################
+# Kill Focused Window
+bindsym $mod+q kill
+# Focus Window by Direction
+bindsym $mod+a focus left
+bindsym $mod+w focus up 
+bindsym $mod+d focus right
+bindsym $mod+s focus down
+# Toggle Fullscreen Current Window
+bindsym $mod+Shift+f fullscreen toggle
+# Toggle Between Floating and Tilling
+bindsym $mod+k floating toggle, sticky disable
+# Picture in Picture
+#bindsym $mod+Ctrl+p sticky enable, floating enable, resize set width 400px height 225px, move position 1500 10
+bindsym $mod+Ctrl+r sticky enable, floating enable, resize set width 400px height 225px, move position 1600 80
+bindsym $mod+Ctrl+i sticky enable, floating enable, resize set width 400px height 225px, move position 300 10
+# Default Names for Workspaces
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+# Switch to Workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+
+# Move Focused Container to Workspace
+bindsym $mod+Shift+1 move container to workspace $ws1 ; workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2 ; workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3 ; workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4 ; workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5 ; workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6 ; workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7 ; workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8 ; workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9 ; workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10 ; workspace $ws10
+
+# Silently Move to Workspace
+bindsym $mod+Ctrl+1 move container to workspace $ws1 
+#; workspace $ws1
+bindsym $mod+Ctrl+2 move container to workspace $ws2 
+#; workspace $ws2
+bindsym $mod+Ctrl+3 move container to workspace $ws3 
+#; workspace $ws3
+bindsym $mod+Ctrl+4 move container to workspace $ws4 
+#; workspace $ws4
+bindsym $mod+Ctrl+5 move container to workspace $ws5 
+#; workspace $ws5
+bindsym $mod+Ctrl+6 move container to workspace $ws6 
+#; workspace $ws6
+bindsym $mod+Ctrl+7 move container to workspace $ws7 
+#; workspace $ws7
+bindsym $mod+Ctrl+8 move container to workspace $ws8 
+#; workspace $ws8
+bindsym $mod+Ctrl+9 move container to workspace $ws9 
+#; workspace $ws9
+bindsym $mod+Ctrl+0 move container to workspace $ws10 
+#; workspace $ws0
+
+# Resize Mode
+bindsym $mod+r mode "resize"
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        bindsym l resize shrink width 10 px or 10 ppt
+        bindsym k resize grow height 10 px or 10 ppt
+        bindsym j resize shrink height 10 px or 10 ppt
+        bindsym h resize grow width 10 px or 10 ppt
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape or $mod+r
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+## Experimental:
+# enable mirror
+#bindsym $mod+Shift+h workspace $ws8 ; exec wl-mirror eDP-1 ; workspace $ws9 
+bindsym $mod+Shift+h workspace $ws8 ; exec wl-mirror HEADLESS-1 ; workspace $ws9 
+bindsym $mod+Ctrl+h workspace 8 ; workspace 9
+#bindsym $mod+Ctrl+h exec pkill wl-mirror ; workspace back_and_forth
+bindsym $mod+Tab workspace back_and_forth
+
+## Disabled Hotkeys:
+# Move Focused Window
+# bindsym $mod+Shift+a move left
+# bindsym $mod+Shift+w move down
+# bindsym $mod+Shift+d move up
+# bindsym $mod+Shift+s move right
+
+# Split in Horizontal Orientation
+#bindsym $mod+b split h 
+# Split in Vertical Orientation
+#bindsym $mod+v split v
+#bindsym $mod+Shift+v split h
+# Change Focus Between Tilling and Floating
+#bindsym $mod+space focus mode_toggle
+# Scratchpad:
+    # Sway has a "scratchpad", which is a bag of holding for windows.
+    # You can send windows there and get them back later.
+
+    # Move the currently focused window to the scratchpad
+    #bindsym $mod+Shift+minus move scratchpad
+
+    # Show the next scratchpad window or hide the focused scratchpad window.
+    # If there are multiple scratchpad windows, this command cycles through them.
+    #bindsym $mod+minus scratchpad show
+########################################################################################
+
+
+
+################################# Launcher Hotkeys #####################################
+# Launch Menu Launcher
+bindsym $mod+c exec --no-startup-id rofi -show drun -theme dmenu
+# launch clipboard manager
+bindsym $mod+u exec rofi -modi clipboard:~/.config/sway/cliphist-rofi-img -show clipboard -show-icons -theme rounded-gray-dark
+bindsym $mod+o exec rofi -modi clipboard:~/.config/sway/cliphist-rofi-img -show clipboard -show-icons -theme fullscreen-preview-clipboard -filter "binary"
+# send clipboard to pushbullet
+bindsym $mod+Shift+u exec ~/.config/sway/clipboard/pushbullet/sendclipboard
+
+# Launch Terminal
+bindsym $mod+Return exec $tty
+bindsym $mod+Shift+Return exec $alttty
+# Launch Browser
+#bindsym $mod+f exec flatpak run com.brave.Browser
+bindsym $mod+f exec firefox
+# Launch Volume Management
+bindsym $mod+v exec pavucontrol
+# Launch File Explorer
+bindsym $mod+e exec nautilus
+# Launch Notification Menu
+bindsym $mod+n exec swaync-client -t
+# Launch Bluetooth Manager
+bindsym $mod+b exec blueman-manager
+# Snippet Selector
+bindsym $mod+t exec macopa -Fywy
+bindsym $mod+Shift+t exec macopa -Sywy
+## Screenshot
+bindsym $mod+Shift+p exec grim -g "$(slurp)" ~/Pictures/Screenshots/screenshot_$(date +%Y%m%d%H%M%S).png && notify-send -t 4000 "📷 Saved to ~/Pictures/Screenshots/"
+bindsym F9 exec grim -g "$(slurp)" ~/Pictures/Screenshots/screenshot_$(date +%Y%m%d%H%M%S).png && notify-send -t 4000 "📷 Saved to ~/Pictures/Screenshots/"
+bindsym $mod+p exec grim -g "$(slurp)" - | wl-copy && notify-send -t 4000 "📷 Copied to Clipboard"
+bindsym $mod+Ctrl+p exec notify-send -t 4000 "🎨 Select Hex Colour" && grim -g "$(slurp -p)" -t ppm - | convert - -format '%[pixel:p{0,0}]' txt:- | tail -n 1 | cut -d ' ' -f 4 | wl-copy && notify-send -t 4000 "🎨 Grepped to Clipboard"
+## Sharing
+bindsym $mod+Shift+s exec flatpak run io.github.sigmasd.share
+## Disabled:
+#bindsym $mod+Ctrl+f exec ~/.config/sway/floatingfox
+#bindsym $mod+Ctrl+k exec ~/.config/sway/HotkeyKitty
+bindsym $mod+y exec $tty -e nvim -n ~/Downloads/Notes/swap.md
+bindsym $mod+Shift+y exec $tty -e nvim -n ~/.config/sway/config
+########################################################################################
+
+
+
+################################# Sway Window Decorators ###############################
+# Sway Bar Config
+bar {
+    #swaybar_command waybar
+    position top
+    mode invisible 
+    #modifier Mod4
+}
+# Define Border Size
+default_border pixel 3
+# Disable Border if Solitary Container
+smart_borders on
+# Container Gaps. Disable Gaps if Solitary Container
+smart_gaps on
+gaps inner 5
+gaps outer 5
+# Container Border Colours
+#client.focused          #555555 #555555 #555555 #555555
+client.focused          #777777 #777777 #777777 #777777
+client.focused_inactive #00000000 #00000000 #00000000 #00000000
+client.unfocused        #00000000 #00000000 #00000000 #00000000
+client.urgent           #ff0000 #ff0000 #ff0000 #ffffff
+########################################################################################
+
+
+
+################################# Disabled Features ####################################
+# Wayland Locking
+#exec --no-startup-id swaylock -f
+
+# NetworkManager is the most popular way to manage wireless networks on Linux,
+# and nm-applet is the most common system tray GUI for it.
+# For sway, you might want to use sway's waybar or use NetworkManager's applet directly
+#exec --no-startup-id nm-applet
+########################################################################################

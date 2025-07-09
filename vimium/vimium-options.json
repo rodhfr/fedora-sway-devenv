@@ -1,0 +1,32 @@
+{
+  "keyMappings": "map D nextTab\nmap A previousTab\nunmap r\nmap R reload",
+  "scrollStepSize": 50,
+  "grabBackFocus": true,
+  "settingsVersion": "2.3",
+  "exclusionRules": [
+    {
+      "passKeys": "",
+      "pattern": "https?://mail.google.com/*"
+    },
+    {
+      "passKeys": "",
+      "pattern": "https?://chat.deepseek.com/*"
+    },
+    {
+      "passKeys": "",
+      "pattern": "https?://chatgpt.com/*"
+    },
+    {
+      "passKeys": "",
+      "pattern": "https?://jdownloader.rodhfr.shop/*"
+    },
+    {
+      "passKeys": "",
+      "pattern": "https?://localhost:3010/*"
+    },
+    {
+      "passKeys": "<,>",
+      "pattern": "https?://www.youtube.com/*"
+    }
+  ]
+}
