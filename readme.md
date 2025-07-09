@@ -1,6 +1,18 @@
-Do no run install script blindly this is a personal install script which may not work on your computer, read before.
+## Installation
+> [!IMPORTANT]
+> Do no install blindly! This is a personal repo which may not work on your computer, read before.
 
-# Setup vnc
+#### Works on: 
+* Fedora 42
+  
+### Install Script
+```bash
+sh ~/.config/sway/install-programs.sh
+```
+
+### Setup vnc
+> [!CAUTION]
+> WIP
 ```
 sudo dnf install tigervnc-server
 vncpasswd
@@ -14,7 +26,10 @@ sudo systemctl daemon-reload
 sudo systemctl enable vncserver@:1.service
 ```
 
-# Setup Snapcast
+### Setup Snapcast
+> [!WARNING]
+> WIP
  * there is a [copr repo](https://copr.fedorainfracloud.org/coprs/jwillikers/snapcast) there is also a was the second one in google search
  * there is a [pipewire module](https://docs.pipewire.org/page_module_snapcast_discover.html) that does everything  
  * this repo already have user config for the pipewire module
+
