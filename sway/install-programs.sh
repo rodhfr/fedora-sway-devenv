@@ -21,17 +21,21 @@ USER_NAME="Rodolfo Franca"
 # DNF INSTALLATION 
 sudo dnf update -y
 sudo dnf upgrade -y
-sudo dnf install xdg-desktop-portal-wlr -y 
 sudo dnf copr enable alternateved/keyd -y
 sudo dnf copr enable erikreider/SwayNotificationCenter -y
 sudo dnf copr enable wezfurlong/wezterm-nightly -y
 sudo dnf copr enable zeno/scrcpy -y
 sudo dnf copr enable monkeygold/nautilus-open-any-terminal -y
+sudo dnf install gvfs-mtp -y
 sudo dnf install nautilus-open-any-terminal -y
+sudo dnf install xdg-desktop-portal-wlr -y 
 sudo dnf install scrcpy -y
 sudo dnf install poetry -y
+sudo dnf install fzf -y
 sudo dnf install wezterm -y
+sudo dnf install google-noto-emoji-fonts -y
 sudo dnf install keyd -y
+sudo dnf install gammastep -y
 sudo systemctl enable keyd --now
 sudo mkdir -p /etc/keyd
 sudo cp ~/.config/keyd/default.conf /etc/keyd/default.conf
@@ -114,16 +118,24 @@ sudo dnf install alacritty -y
 sudo dnf install SwayNotificationCenter -y
 sudo dnf install qt6-qt5compat -y
 sudo dnf install Baobab -y
+sudo dnf install fish -y
 
 # Manual Install
 curl -L https://github.com/dundee/gdu/releases/latest/download/gdu_linux_amd64.tgz | tar xz
 chmod +x gdu_linux_amd64
 sudo mv gdu_linux_amd64 /usr/bin/gdu
 
+bash <(curl --proto '=https' --tlsv1.2 -sSf https://setup.atuin.sh)
+atuin register -u rodhfr -e souzafrodolfo@gmail.com
+atuin import auto
+atuin sync
+
+
 # Cargo Installs
 cargo install swayhide
 cargo install dim-screen
 cargo install rustlings
+cargo install eza
 
 # Git Setup
 git config --global user.email "$USER_EMAIL"
@@ -171,7 +183,9 @@ echo "Already rebooted, installation continues..."
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 flatpak install flathub com.adamcake.Bolt -y
 flatpak install flathub com.bitwarden.desktop -y
+flatpak install flathub com.spotify.Client -y
 flatpak install flathub org.gnome.Loupe -y
+flatpak install flathub io.github.josephmawa.TextCompare -y
 flatpak install flathub org.gnome.Crosswords -y
 flatpak install flathub org.torproject.torbrowser-launcher -y
 flatpak install flathub org.qbittorrent.qBittorrent -y

@@ -49,3 +49,31 @@ pwd
 ls
 
 export SCRCPYCMD=$(cat ~/.config/scrcpy/scrcpy.conf)
+export SCRCPYA20=$(cat ~/.config/scrcpy/scrcpya20.conf)
+export SCRCPYA35=$(cat ~/.config/scrcpy/scrcpya35.conf)
+
+strdiff() {
+    if [ $# -ne 2 ]; then
+        echo "Uso: strdiff \"string1\" \"string2\""
+        return 1
+    fi
+
+    tmp1=$(mktemp /tmp/str1.XXXX)
+    tmp2=$(mktemp /tmp/str2.XXXX)
+
+    echo "$1" > "$tmp1"
+    echo "$2" > "$tmp2"
+
+    nvim -d "$tmp1" "$tmp2"
+
+    rm -f "$tmp1" "$tmp2"
+}
+
+
+eval "$(starship init bash)"
+
+
+. "$HOME/.atuin/bin/env"
+
+[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
+eval "$(atuin init bash)"

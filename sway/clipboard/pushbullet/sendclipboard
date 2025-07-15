@@ -5,7 +5,7 @@
 # ⚠️ Put your Pushbullet Access Token below (from https://www.pushbullet.com/account)
 # in the .env file
 if [[ -f .env ]]; then
-  source .env
+  source ./.env
 else
   echo ".env file not found!"
   exit 1

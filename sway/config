@@ -378,6 +378,8 @@ bindsym $mod+Shift+s exec flatpak run io.github.sigmasd.share
 #bindsym $mod+Ctrl+k exec ~/.config/sway/HotkeyKitty
 bindsym $mod+y exec $tty -e nvim -n ~/Downloads/Notes/swap.md
 bindsym $mod+Shift+y exec $tty -e nvim -n ~/.config/sway/config
+#bindsym $mod+Shift+Control+s exec $tty $SCRCPYCMD 
+bindsym $mod+Shift+Control+s exec $SCRCPYCMD
 ########################################################################################
 
 
