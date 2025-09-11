@@ -36,6 +36,7 @@ sudo dnf install tesseract-osd -y
 sudo dnf install xdg-desktop-portal-wlr -y 
 sudo dnf install scrcpy -y
 sudo dnf install ocrmypdf -y
+sudo dnf install libssl-devel -y
 sudo dnf install gamemode -y
 sudo dnf install tesseract-langpack-jpn.noarch -y
 sudo dnf install tesseract-langpack-jpn_vert.noarch -y
