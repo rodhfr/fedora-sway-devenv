@@ -1,0 +1,10 @@
+#!/bin/bash
+
+DEVICE="B2:91:67:0F:F2:89"
+NAME="BLS-B21"
+
+
+notify-send -t 1000 "Bluetooth" "🔄 Tentando desconectar do $NAME..."
+
+# Envia comando de desconexão
+bluetoothctl <<< "disconnect $DEVICE" > /dev/null

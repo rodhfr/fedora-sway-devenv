@@ -23,16 +23,25 @@ sudo dnf update -y
 sudo dnf upgrade -y
 sudo dnf copr enable alternateved/keyd -y
 sudo dnf copr enable erikreider/SwayNotificationCenter -y
-sudo dnf copr enable wezfurlong/wezterm-nightly -y
+#sudo dnf copr enable wezfurlong/wezterm-nightly -y
 sudo dnf copr enable zeno/scrcpy -y
 sudo dnf copr enable monkeygold/nautilus-open-any-terminal -y
+sudo dnf copr enable sentry/xone -y
+lpf approve xone-firmware
+lpf build xone-firmware
 sudo dnf install gvfs-mtp -y
+sudo dnf install xone lpf-xone-firmware -y
 sudo dnf install nautilus-open-any-terminal -y
+sudo dnf install tesseract-osd -y
 sudo dnf install xdg-desktop-portal-wlr -y 
 sudo dnf install scrcpy -y
+sudo dnf install ocrmypdf -y
+sudo dnf install gamemode -y
+sudo dnf install tesseract-langpack-jpn.noarch -y
+sudo dnf install tesseract-langpack-jpn_vert.noarch -y
 sudo dnf install poetry -y
 sudo dnf install fzf -y
-sudo dnf install wezterm -y
+#sudo dnf install wezterm -y
 sudo dnf install google-noto-emoji-fonts -y
 sudo dnf install keyd -y
 sudo dnf install gammastep -y
@@ -52,6 +61,8 @@ sudo dnf install ncurses-devel -y
 # https://rpmfusion.org/Howto/Multimedia
 sudo dnf swap ffmpeg-free ffmpeg --allowerasing -y
 sudo dnf update @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin -y
+sudo dnf install rpmfusion-nonfree-release-tainted -y
+sudo dnf --repo=rpmfusion-nonfree-tainted install "*-firmware" -y
 sudo dnf install ImageMagick -y
 sudo dnf install intel-media-driver -y
 sudo dnf install gnome-software -y
@@ -61,7 +72,7 @@ sudo dnf install bat -y
 sudo dnf install lxpolkit -y
 sudo dnf install gnome-disk-utility -y
 sudo dnf install fuse-overlayfs -y
-sudo dnf install azote -y
+#sudo dnf install azote -y
 sudo dnf install nautilus -y
 sudo dnf install openssl -y
 sudo dnf install swaybg -y
@@ -181,13 +192,17 @@ echo "Already rebooted, installation continues..."
 # flatpaks installation
 ## user installations
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+flatpak install flathub org.freedesktop.Platform.VulkanLayer.gamescope -y
+flatpak install flathub com.github.mtkennerly.ludusavi -y
+flatpak install flathub it.mijorus.gearlever -y
+flatpak install flathub org.freedesktop.Platform.VulkanLayer.MangoHud -y
+sudo flatpak override --filesystem=xdg-config/MangoHud:ro
 flatpak install flathub com.adamcake.Bolt -y
 flatpak install flathub com.bitwarden.desktop -y
 flatpak install flathub com.spotify.Client -y
 flatpak install flathub org.gnome.Loupe -y
 flatpak install flathub io.github.josephmawa.TextCompare -y
 flatpak install flathub org.gnome.Crosswords -y
-flatpak install flathub org.torproject.torbrowser-launcher -y
 flatpak install flathub org.qbittorrent.qBittorrent -y
 flatpak install flathub io.github.josephmawa.Bella -y
 flatpak install flathub com.discordapp.Discord -y

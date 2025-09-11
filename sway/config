@@ -4,7 +4,8 @@
 
 ############################# Modifier Keys ############################################
 ## Main Modifier Key
-set $mod mod1
+#set $mod mod1
+set $mod mod4
 # mod4 is Super. mod1 is alt. It is possible to set other modifier keys check in sway manual.
 
 ## Drag Window Modifier
@@ -60,9 +61,13 @@ exec_always autotiling
 #exec_always bash -c 'systemctl --user restart wayvnc.service'
 exec wl-paste --watch cliphist store
 exec wl-paste --type image --watch cliphist store
-exec snapserver -d
+#exec snapserver -d
 #exec clipse -listen
+exec kdeconnectd
 
+## AUDIO 
+# auto start bluetooth speakers
+exec ~/.config/sway/bluetooth/connect/bls-b21
 ## Experimental:
 #exec audiorelay_run
 ########################################################################################
@@ -70,8 +75,14 @@ exec snapserver -d
 
 
 ############################### Display Output #########################################
-output HDMI-A-1 pos 0 0 resolution 1920x1080@74.973Hz
-output eDP-1 pos 1920 0
+# Notebook monitor to the right
+# output HDMI-A-1 pos 0 0 resolution 1920x1080@74.973Hz
+# output eDP-1 pos 1920 0
+
+# Notebook monitor to the left
+output eDP-1 pos 0 0
+output HDMI-A-1 pos 1920 0 resolution 1920x1080@74.973Hz
+
 
 #output HEADLESS-1 resolution 1920x1080@30Hz position 3840 0
 output HEADLESS-1 resolution 1280x720@60Hz position 3840 0
@@ -86,7 +97,7 @@ workspace 6 output HDMI-A-1
 workspace 7 output HDMI-A-1
 workspace 8 output HDMI-A-1
 workspace 9 output eDP-1
-workspace 10 output HEADLESS-1
+workspace 10 output eDP-1
 ########################################################################################
 
 
@@ -108,8 +119,14 @@ bindsym $mod+Shift+w output * bg `find $wallpapers_path -type f | shuf -n 1` fil
 ############################### Window Rules ###########################################
 #assign [class="BoltLauncher"] workspace 1
 #assign [class="net-runelite-client-RuneLite"] workspace 1
+#for_window [app_id="clipse"] floating enable, move position center, resize set 80ppt 80ppt # style window to look nice
 for_window [app_id="mpv"] sticky enable, floating enable, resize set width 400px height 225px, move position 1500 10
-for_window [app_id="clipse"] floating enable, move position center, resize set 80ppt 80ppt # style window to look nice
+for_window [app_id="floatingterm"] floating enable, border normal, resize set width 58ppt height 70ppt, move position center, border none
+# Smaller pip
+for_window [title="^Picture in Picture$" class="net-runelite-client-RuneLite"] floating enable, sticky enable, move position 1600 0
+# medium pip
+#for_window [title="^Picture in Picture$" class="net-runelite-client-RuneLite"] floating enable, sticky enable, move position 1465 0
+#for_window [title="^Picture in Picture$" class="net-runelite-client-RuneLite"] move container to workspace 9
 ########################################################################################
 
 
@@ -154,6 +171,7 @@ input "1267:12447:ELAN1200:00_04F3:309F_Mouse" {
 ################################# System Controls #######################################
 # Reload the Configuration File
 bindsym $mod+Shift+c reload
+bindsym $mod+Ctrl+c reload ; exec swaymsg output "eDP-1" disable && exec notify-send -t 3000 "⚙️⟳ Reloading Config"
 # Restart Sway (preserves your layout/session, can be used to upgrade sway)
 bindsym $mod+Shift+r restart
 # Exit Sway
@@ -170,24 +188,28 @@ bindsym $mod+Shift+i exec brightnessctl set 10%+
 bindsym $mod+Shift+j exec brightnessctl set 10%-
 # Dimmer Control
 bindsym $mod+g exec brightnessctl set 1 && pkill dim
-bindsym $mod+Shift+g exec dim -d 0 -p -a 0.4
-bindsym $mod+Ctrl+g exec pkill dim  
-# Xkill Mode
-bindsym $mod+x mode "xkill"
-mode "xkill" {
-bindsym --whole-window button1 kill
-bindsym Escape mode "default"
-bindsym Return mode "default"
-}
+bindsym $mod+Shift+g exec dim -d 0 -p -a 0.025
+bindsym $mod+Ctrl+g exec dim -d 0 -p -a -0.025
 # Media Control
-bindsym F13 exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+ 
-bindsym F12 exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05- 
-bindsym F10 exec playerctl play-pause && notify-send -t 1000 "⏯️ Play/Pause"
-bindsym F11 exec pactl set-sink-mute @DEFAULT_SINK@ toggle && notify-send -t 1000 "🔇/📢 Mute toggled"
+#bindsym F13 exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+ 
+#bindsym F12 exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05- 
+#bindsym F10 exec playerctl play-pause && notify-send -t 1000 "⏯️ Play/Pause"
+#bindsym F11 exec pactl set-sink-mute @DEFAULT_SINK@ toggle && notify-send -t 1000 "🔇/📢 Mute toggled"
 #bindsym Shift+0 exec playerctl next
 #bindsym Shift+9 exec playerctl previous
-bindsym $mod+Shift+b exec ~/.config/sway/bluetooth/connect/qcyt13anc
-bindsym $mod+Ctrl+b exec ~/.config/sway/bluetooth/disconnect/qcyt13anc
+# bindsym $mod+Shift+b exec ~/.config/sway/bluetooth/connect/qcyt13anc
+# bindsym $mod+Ctrl+b exec ~/.config/sway/bluetooth/disconnect/qcyt13anc
+#bindsym $mod+Shift+s exec ~/.config/sway/bluetooth/connect/bls-b21  
+#bindsym $mod+Ctrl+s exec ~/.config/sway/bluetooth/disconnect/bls-b21
+
+### DISABLED 
+# Xkill Mode
+# bindsym $mod+x mode "xkill"
+# mode "xkill" {
+# bindsym --whole-window button1 kill
+# bindsym Escape mode "default"
+# bindsym Return mode "default"
+# }
 ########################################################################################
 
 
@@ -307,8 +329,8 @@ mode "resize" {
 ## Experimental:
 # enable mirror
 #bindsym $mod+Shift+h workspace $ws8 ; exec wl-mirror eDP-1 ; workspace $ws9 
-bindsym $mod+Shift+h workspace $ws8 ; exec wl-mirror HEADLESS-1 ; workspace $ws9 
-bindsym $mod+Ctrl+h workspace 8 ; workspace 9
+#bindsym $mod+Shift+h workspace $ws8 ; exec wl-mirror HEADLESS-1 ; workspace $ws9 
+#bindsym $mod+Ctrl+h workspace 8 ; workspace 9
 #bindsym $mod+Ctrl+h exec pkill wl-mirror ; workspace back_and_forth
 bindsym $mod+Tab workspace back_and_forth
 
@@ -363,23 +385,39 @@ bindsym $mod+e exec nautilus
 bindsym $mod+n exec swaync-client -t
 # Launch Bluetooth Manager
 bindsym $mod+b exec blueman-manager
-# Snippet Selector
-bindsym $mod+t exec macopa -Fywy
-bindsym $mod+Shift+t exec macopa -Sywy
 ## Screenshot
-bindsym $mod+Shift+p exec grim -g "$(slurp)" ~/Pictures/Screenshots/screenshot_$(date +%Y%m%d%H%M%S).png && notify-send -t 4000 "📷 Saved to ~/Pictures/Screenshots/"
-bindsym F9 exec grim -g "$(slurp)" ~/Pictures/Screenshots/screenshot_$(date +%Y%m%d%H%M%S).png && notify-send -t 4000 "📷 Saved to ~/Pictures/Screenshots/"
+bindsym $mod+Shift+p exec grim -g "$(slurp)" ~/Pictures/screenshot_$(date +%Y%m%d%H%M%S).png && notify-send -t 4000 "📷 Saved to ~/Pictures"
+#bindsym F9 exec grim -g "$(slurp)" ~/Pictures/screenshot_$(date +%Y%m%d%H%M%S).png && notify-send -t 4000 "📷 Saved to ~/Pictures"
 bindsym $mod+p exec grim -g "$(slurp)" - | wl-copy && notify-send -t 4000 "📷 Copied to Clipboard"
 bindsym $mod+Ctrl+p exec notify-send -t 4000 "🎨 Select Hex Colour" && grim -g "$(slurp -p)" -t ppm - | convert - -format '%[pixel:p{0,0}]' txt:- | tail -n 1 | cut -d ' ' -f 4 | wl-copy && notify-send -t 4000 "🎨 Grepped to Clipboard"
-## Sharing
-bindsym $mod+Shift+s exec flatpak run io.github.sigmasd.share
+bindsym $mod+Shift+o exec flatpak run com.github.dynobo.normcap
+
 ## Disabled:
 #bindsym $mod+Ctrl+f exec ~/.config/sway/floatingfox
 #bindsym $mod+Ctrl+k exec ~/.config/sway/HotkeyKitty
-bindsym $mod+y exec $tty -e nvim -n ~/Downloads/Notes/swap.md
+bindsym $mod+y exec $tty -e nvim -n ~/.note-swap.md
 bindsym $mod+Shift+y exec $tty -e nvim -n ~/.config/sway/config
-#bindsym $mod+Shift+Control+s exec $tty $SCRCPYCMD 
 bindsym $mod+Shift+Control+s exec $SCRCPYCMD
+# Htop 
+bindsym $mod+Shift+h exec $tty -e htop 
+# open sites
+bindsym $mod+Shift+l exec xdg-open "https://letterboxd.com/RodolfoFranca/"
+bindsym $mod+Shift+a exec xdg-open "https://chatgpt.com/"
+# floating terminal
+#bindsym $mod+t exec $tty --class floatingterm
+bindsym $mod+t exec 'swaymsg "[app_id=\"floatingterm\"] kill" || alacritty --class floatingterm
+
+### Disabled Launcher Hotkeys
+## Sharing
+#bindsym $mod+Shift+s exec flatpak run io.github.sigmasd.share
+bindsym $mod+shift+s exec ~/.config/sway/scripts/kde-connect-share.sh
+
+
+# Snippet Selector
+#bindsym $mod+t exec macopa -Fywy
+#bindsym $mod+Shift+t exec macopa -Sywy
+
+
 ########################################################################################
 
 
