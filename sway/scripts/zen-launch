@@ -1,0 +1,12 @@
+#!/bin/bash
+
+APP_ID="app.zen_browser.zen"
+WS="2"
+
+if swaymsg -t get_tree | grep -i app_id | grep -i $APP_ID &> /dev/null; then
+    swaymsg "workspace number $WS; [app_id=\"$APP_ID\"] focus"
+    echo "Focusing on $APP_ID"
+else
+    swaymsg "workspace number $WS; exec flatpak run $APP_ID"
+fi
+
