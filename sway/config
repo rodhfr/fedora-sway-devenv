@@ -365,6 +365,7 @@ bindsym $mod+Tab workspace back_and_forth
 ################################# Launcher Hotkeys #####################################
 # Launch Menu Launcher
 bindsym $mod+c exec --no-startup-id rofi -show drun -theme dmenu
+bindsym $mod+x exec --no-startup-id rofi -show drun -theme dmenu
 # launch clipboard manager
 bindsym $mod+u exec rofi -modi clipboard:~/.config/sway/clipboard/cliphist-rofi-img -show clipboard -show-icons -theme rounded-gray-dark
 bindsym $mod+o exec rofi -modi clipboard:~/.config/sway/clipboard/cliphist-rofi-img -show clipboard -show-icons -theme fullscreen-preview-clipboard -filter "binary"
@@ -375,8 +376,8 @@ bindsym $mod+Shift+u exec ~/.config/sway/clipboard/pushbullet/sendclipboard
 bindsym $mod+Return exec $tty
 bindsym $mod+Shift+Return exec $alttty
 # Launch Browser
-#bindsym $mod+f exec flatpak run com.brave.Browser
-bindsym $mod+f exec firefox
+#bindsym $mod+f exec flatpak run app.zen_browser.zen 
+bindsym $mod+f exec ~/.config/sway/scripts/zen-launch
 # Launch Volume Management
 bindsym $mod+v exec pavucontrol
 # Launch File Explorer
@@ -400,9 +401,6 @@ bindsym $mod+Shift+y exec $tty -e nvim -n ~/.config/sway/config
 bindsym $mod+Shift+Control+s exec $SCRCPYCMD
 # Htop 
 bindsym $mod+Shift+h exec $tty -e htop 
-# open sites
-bindsym $mod+Shift+l exec xdg-open "https://letterboxd.com/RodolfoFranca/"
-bindsym $mod+Shift+a exec xdg-open "https://chatgpt.com/"
 # floating terminal
 #bindsym $mod+t exec $tty --class floatingterm
 bindsym $mod+t exec 'swaymsg "[app_id=\"floatingterm\"] kill" || alacritty --class floatingterm
