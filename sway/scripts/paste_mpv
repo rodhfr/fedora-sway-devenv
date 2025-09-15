@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# get clipboard content
+CLIP=$(wl-paste)
+
+# Check if clipboard is empty
+if [ -z "$CLIP" ]; then
+    echo "   MPV  ❌ Empty Clipboard!"
+    notify-send -t 3000 "   MPV - ❌ Empty Clipboard!" 
+    exit 1
+fi
+
+# check if link is valid
+if [[ "$CLIP" =~ ^https?:// ]]; then
+    echo "🔍 Trying to open: $CLIP"
+    notify-send -t 10000 "   MPV - Starting url  ..." &
+    mpv "$CLIP"
+else
+    echo "   MPV  ❌ This is not a valid url!"
+    notify-send -t 3000 "   MPV  ❌ This is not a valid url!" 
+fi
+
