@@ -126,7 +126,14 @@ for_window [app_id="floatingterm"] floating enable, border normal, resize set wi
 for_window [title="^Picture in Picture$" class="net-runelite-client-RuneLite"] floating enable, sticky enable, move position 1600 0
 # medium pip
 #for_window [title="^Picture in Picture$" class="net-runelite-client-RuneLite"] floating enable, sticky enable, move position 1465 0
-#for_window [title="^Picture in Picture$" class="net-runelite-client-RuneLite"] move container to workspace 9
+for_window [class="net-runelite-client-RuneLite"] move --no-auto-back-and-forth container to workspace 9
+for_window [class="Rustdesk"] move --no-auto-back-and-forth container to workspace 8
+for_window [app_id="org.gnome.Nautilus"] move --no-auto-back-and-forth container to workspace 7
+for_window [class="Spotify"] move --no-auto-back-and-forth container to workspace 5
+for_window [class="BoltLauncher"] move --no-auto-back-and-forth container to workspace 9
+
+
+
 ########################################################################################
 
 
@@ -335,6 +342,11 @@ mode "resize" {
 bindsym $mod+Tab workspace back_and_forth
 
 ## Disabled Hotkeys:
+# to disable back and forth
+# bindsym $mod+1 workspace --no-auto-back-and-forth 1
+# bindsym $mod+2 workspace --no-auto-back-and-forth 2
+# bindsym $mod+3 workspace --no-auto-back-and-forth 3
+
 # Move Focused Window
 # bindsym $mod+Shift+a move left
 # bindsym $mod+Shift+w move down
@@ -373,15 +385,17 @@ bindsym $mod+o exec rofi -modi clipboard:~/.config/sway/clipboard/cliphist-rofi-
 bindsym $mod+Shift+u exec ~/.config/sway/clipboard/pushbullet/sendclipboard
 
 # Launch Terminal
-bindsym $mod+Return exec $tty
-bindsym $mod+Shift+Return exec $alttty
+bindsym $mod+Return exec ~/.config/sway/scripts/alacritty-launch
+bindsym $mod+Shift+Return exec $tty
+bindsym $mod+Ctrl+Return exec $alttty
 # Launch Browser
 #bindsym $mod+f exec flatpak run app.zen_browser.zen 
 bindsym $mod+f exec ~/.config/sway/scripts/zen-launch
 # Launch Volume Management
 bindsym $mod+v exec pavucontrol
 # Launch File Explorer
-bindsym $mod+e exec nautilus
+bindsym $mod+e workspace --no-auto-back-and-forth 7 ; exec nautilus
+bindsym $mod+Ctrl+e workspace --no-auto-back-and-forth 7 ; exec nautilus --new-window
 # Launch Notification Menu
 bindsym $mod+n exec swaync-client -t
 # Launch Bluetooth Manager
@@ -397,7 +411,7 @@ bindsym $mod+Shift+o exec flatpak run com.github.dynobo.normcap
 #bindsym $mod+Ctrl+f exec ~/.config/sway/floatingfox
 #bindsym $mod+Ctrl+k exec ~/.config/sway/HotkeyKitty
 bindsym $mod+y exec $tty -e nvim -n ~/.note-swap.md
-bindsym $mod+Shift+y exec $tty -e nvim -n ~/.config/sway/config
+bindsym $mod+Shift+y workspace --no-auto-back-and-forth 3 ; exec $tty -e nvim -n ~/.config/sway/config
 bindsym $mod+Shift+Control+s exec $SCRCPYCMD
 # Htop 
 bindsym $mod+Shift+h exec $tty -e htop 
