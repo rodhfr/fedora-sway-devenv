@@ -3,9 +3,15 @@
 
 set -euo pipefail
 
+# create tmp directory
+mkdir -p /tmp/kdeconnect-share
+TMPDIR=/tmp/kdeconnect-share/
+
 # Get the first connected device
 device=$(kdeconnect-cli -a --id-only | head -n 1)
+device_name=$(kdeconnect-cli -a --name-only | head -n 1)
 
+# check if device is available
 if [[ -z "$device" ]]; then
     echo "❌ No device found. Make sure KDE Connect is running and paired."
     exit 1
@@ -23,13 +29,32 @@ else
     exit 1
 fi
 
+# check if clibpoard is empty
 if [[ -z "$target" ]]; then
     echo "❌ Clipboard is empty."
     exit 1
 fi
 
-# Share clipboard content
-kdeconnect-cli -d "$device" --share "$target"
+if wl-paste --type image/png > $TMPDIR/clipboard.png; then
+    echo "clipboard mime-type: binary"
+    notify-send -t 3000 "Sending clipboard file to $device_name..."
+    #wl-paste --type image/png  > $TMPDIR/clipboard.png
+    file="$TMPDIR/clipboard.png"
+    echo $file
+else
+    echo "Clipboard mime-type: text "
+    file=$target
+fi
 
-echo "✅ Shared clipboard content with $device."
+
+# Share clipboard content
+if kdeconnect-cli -d "$device" --share "$file"; then
+    echo "✅ Shared clipboard content with $device."
+else
+    echo "Sharing clipboard has failed"
+fi
+
+#rm -r $TMPDIR
+
+
 

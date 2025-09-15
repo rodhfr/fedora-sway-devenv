@@ -126,11 +126,15 @@ for_window [app_id="floatingterm"] floating enable, border normal, resize set wi
 for_window [title="^Picture in Picture$" class="net-runelite-client-RuneLite"] floating enable, sticky enable, move position 1600 0
 # medium pip
 #for_window [title="^Picture in Picture$" class="net-runelite-client-RuneLite"] floating enable, sticky enable, move position 1465 0
-for_window [class="net-runelite-client-RuneLite"] move --no-auto-back-and-forth container to workspace 9
-for_window [class="Rustdesk"] move --no-auto-back-and-forth container to workspace 8
 for_window [app_id="org.gnome.Nautilus"] move --no-auto-back-and-forth container to workspace 7
+for_window [app_id="de.schmidhuberj.tubefeeder"] move --no-auto-back-and-forth container to workspace 1
 for_window [class="Spotify"] move --no-auto-back-and-forth container to workspace 5
 for_window [class="BoltLauncher"] move --no-auto-back-and-forth container to workspace 9
+for_window [class="net-runelite-client-RuneLite"] move --no-auto-back-and-forth container to workspace 9
+for_window [class="Rustdesk"] move --no-auto-back-and-forth container to workspace 8
+for_window [class="Code"] move --no-auto-back-and-forth container to workspace 4
+
+#for_window [class="Alacritty"] move --no-auto-back-and-forth container to workspace 3
 
 
 
@@ -339,6 +343,7 @@ mode "resize" {
 #bindsym $mod+Shift+h workspace $ws8 ; exec wl-mirror HEADLESS-1 ; workspace $ws9 
 #bindsym $mod+Ctrl+h workspace 8 ; workspace 9
 #bindsym $mod+Ctrl+h exec pkill wl-mirror ; workspace back_and_forth
+bindsym mod1+Tab workspace back_and_forth
 bindsym $mod+Tab workspace back_and_forth
 
 ## Disabled Hotkeys:
@@ -370,6 +375,10 @@ bindsym $mod+Tab workspace back_and_forth
     # Show the next scratchpad window or hide the focused scratchpad window.
     # If there are multiple scratchpad windows, this command cycles through them.
     #bindsym $mod+minus scratchpad show
+
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
+
 ########################################################################################
 
 
@@ -385,6 +394,7 @@ bindsym $mod+o exec rofi -modi clipboard:~/.config/sway/clipboard/cliphist-rofi-
 bindsym $mod+Shift+u exec ~/.config/sway/clipboard/pushbullet/sendclipboard
 
 # Launch Terminal
+# bindsym $mod+Return workspace --no-auto-back-and-forth 3 ; exec ~/.config/sway/scripts/alacritty-launch
 bindsym $mod+Return exec ~/.config/sway/scripts/alacritty-launch
 bindsym $mod+Shift+Return exec $tty
 bindsym $mod+Ctrl+Return exec $alttty
@@ -403,7 +413,7 @@ bindsym $mod+b exec blueman-manager
 ## Screenshot
 bindsym $mod+Shift+p exec grim -g "$(slurp)" ~/Pictures/screenshot_$(date +%Y%m%d%H%M%S).png && notify-send -t 4000 "📷 Saved to ~/Pictures"
 #bindsym F9 exec grim -g "$(slurp)" ~/Pictures/screenshot_$(date +%Y%m%d%H%M%S).png && notify-send -t 4000 "📷 Saved to ~/Pictures"
-bindsym $mod+p exec grim -g "$(slurp)" - | wl-copy && notify-send -t 4000 "📷 Copied to Clipboard"
+bindsym $mod+p exec grim -g "$(slurp)" - | wl-copy && notify-send -t 4000 "📷 Copied to Clipboard" && ~/.config/sway/scripts/share
 bindsym $mod+Ctrl+p exec notify-send -t 4000 "🎨 Select Hex Colour" && grim -g "$(slurp -p)" -t ppm - | convert - -format '%[pixel:p{0,0}]' txt:- | tail -n 1 | cut -d ' ' -f 4 | wl-copy && notify-send -t 4000 "🎨 Grepped to Clipboard"
 bindsym $mod+Shift+o exec flatpak run com.github.dynobo.normcap
 
@@ -417,12 +427,15 @@ bindsym $mod+Shift+Control+s exec $SCRCPYCMD
 bindsym $mod+Shift+h exec $tty -e htop 
 # floating terminal
 #bindsym $mod+t exec $tty --class floatingterm
-bindsym $mod+t exec 'swaymsg "[app_id=\"floatingterm\"] kill" || alacritty --class floatingterm
+#bindsym $mod+t exec 'swaymsg "[app_id=\"floatingterm\"] kill" || alacritty --class floatingterm
+
+# mpv paste link
+bindsym $mod+m exec ~/.config/sway/scripts/paste_mpv
 
 ### Disabled Launcher Hotkeys
 ## Sharing
 #bindsym $mod+Shift+s exec flatpak run io.github.sigmasd.share
-bindsym $mod+shift+s exec ~/.config/sway/scripts/kde-connect-share.sh
+bindsym $mod+shift+s exec ~/.config/sway/scripts/share
 
 
 # Snippet Selector

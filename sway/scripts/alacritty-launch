@@ -4,10 +4,10 @@ APP_ID="Alacritty"
 WS="3"
 
 if swaymsg -t get_tree | grep -i app_id | grep -i $APP_ID &> /dev/null; then
-    swaymsg "workspace number $WS; [app_id=\"$APP_ID\"] focus"
+    swaymsg "workspace --no-auto-back-and-forth $WS; [app_id=\"$APP_ID\"] focus"
     echo "Focusing on $APP_ID"
 else
-    swaymsg "workspace number $WS; exec alacritty"
+    swaymsg "workspace --no-auto-back-and-forth $WS; exec alacritty"
 fi
 
 
