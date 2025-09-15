@@ -152,7 +152,7 @@ button:hover {
 }
 
 #temperature.critical {
-    background-color: #8b2f3b;
+    background-color: #1A0000;
 }
 
 #tray {
