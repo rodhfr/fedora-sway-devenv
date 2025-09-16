@@ -11,6 +11,7 @@
         "sway/mode",
         "sway/scratchpad",
         "custom/media",
+        "custom/previous",
         "custom/play-pause",
         "custom/next"
         //"custom/hp_bar",
@@ -198,26 +199,35 @@
         "return-type": "json",
         "on-click": "playerctl play-pause",
         "on-click-right": "playerctl next",
-        "max-length": 250,
+        "max-length": 60,
         "format-icons": {
             "spotify": "",
             "default": "🎜"
         },
         "escape": true,
-        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
-        // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
+        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null", // Script in resources folder
+        "all-outputs": true
     },
     "custom/play-pause": {
-    "format": "",
+    "exec": "$HOME/.config/waybar/modules/compiled_modules/media_widgets/play-pause",
+    "escape": true,
+    "return-type": "json",
     "on-click": "playerctl play-pause",
-
-    "interval": 1,
-    "tooltip": "Play/Pause"
+    "tooltip-format": "Toggle Playing"
     },
     "custom/next": {
-        "format": "⏭", // ícone skip
+        "exec": "$HOME/.config/waybar/modules/compiled_modules/media_widgets/next_button",
+        "escape": true,
+        "return-type": "json",
         "on-click": "playerctl next",
-        "tooltip": "Next"
+        "tooltip-format": "Next"
+    },
+    "custom/previous": {
+        "exec": "$HOME/.config/waybar/modules/compiled_modules/media_widgets/previous_button",
+        "escape": true,
+        "return-type": "json",
+        "on-click": "playerctl previous",
+        "tooltip-format": "Previous"
     },
     "custom/power": {
         "format" : "⏻ ",

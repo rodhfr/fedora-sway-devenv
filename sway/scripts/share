@@ -37,10 +37,9 @@ fi
 
 if wl-paste --type image/png > $TMPDIR/clipboard.png; then
     echo "clipboard mime-type: binary"
-    notify-send -t 3000 "Sending clipboard file to $device_name..."
-    #wl-paste --type image/png  > $TMPDIR/clipboard.png
+    #notify-send -t 3000 " Sending clipboard file to $device_name..."
     file="$TMPDIR/clipboard.png"
-    echo $file
+    echo file
 else
     echo "Clipboard mime-type: text "
     file=$target
@@ -49,9 +48,10 @@ fi
 
 # Share clipboard content
 if kdeconnect-cli -d "$device" --share "$file"; then
-    echo "✅ Shared clipboard content with $device."
+    #echo "✅ Shared clipboard content with $device."
+    notify-send -t 4000 "✅ 󰒗   Shared clipboard content with $device_name."
 else
-    echo "Sharing clipboard has failed"
+    echo "❌ Sharing clipboard has failed"
 fi
 
 #rm -r $TMPDIR

@@ -413,7 +413,7 @@ bindsym $mod+b exec blueman-manager
 ## Screenshot
 bindsym $mod+Shift+p exec grim -g "$(slurp)" ~/Pictures/screenshot_$(date +%Y%m%d%H%M%S).png && notify-send -t 4000 "📷 Saved to ~/Pictures"
 #bindsym F9 exec grim -g "$(slurp)" ~/Pictures/screenshot_$(date +%Y%m%d%H%M%S).png && notify-send -t 4000 "📷 Saved to ~/Pictures"
-bindsym $mod+p exec grim -g "$(slurp)" - | wl-copy && notify-send -t 4000 "📷 Copied to Clipboard" && ~/.config/sway/scripts/share
+bindsym $mod+p exec grim -g "$(slurp)" - | wl-copy && notify-send -t 4000 "📷   Copied to Clipboard" 
 bindsym $mod+Ctrl+p exec notify-send -t 4000 "🎨 Select Hex Colour" && grim -g "$(slurp -p)" -t ppm - | convert - -format '%[pixel:p{0,0}]' txt:- | tail -n 1 | cut -d ' ' -f 4 | wl-copy && notify-send -t 4000 "🎨 Grepped to Clipboard"
 bindsym $mod+Shift+o exec flatpak run com.github.dynobo.normcap
 
