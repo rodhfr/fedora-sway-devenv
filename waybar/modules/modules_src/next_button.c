@@ -8,11 +8,11 @@ void print_status(const char *status) {
     char css_class[64] = "";
 
     if (strcmp(status, "Playing") == 0) {
-        strcpy(icon, " ⏭ ");
+        strcpy(icon, " ⏭");
         strcpy(tooltip, "Next");
         strcpy(css_class, "next_button");
     } else if (strcmp(status, "Paused") == 0) {
-        strcpy(icon, " ⏭ ");
+        strcpy(icon, " ⏭");
         strcpy(tooltip, "Next");
         strcpy(css_class, "next_button");
     } else {
