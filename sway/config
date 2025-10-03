@@ -53,6 +53,7 @@ exec /usr/libexec/gvfs-mtp-volume-monitor &
 
 # Start script for waybar
 exec_always "~/.config/sway/start_waybar.workstation"
+exec_always "~/.config/sway/scripts/window-changer/sway_alt_tab daemon"
 # Start notification daemon
 exec_always swaync
 # Start autotiling for dynamic window tiling
@@ -107,7 +108,8 @@ workspace 10 output eDP-1
 set $wallpapers_path ~/.config/Wallpapers
 # Randomly select a wallpaper from the folder $wallpapers_path
 output * bg `find $wallpapers_path -type f | shuf -n 1` fill
-#bindsym $mod+Shift+w output * bg `find $wallpapers_path -type f | shuf -n 1` fill
+
+# bindsym $mod+Shift+w output * bg `find $wallpapers_path -type f | shuf -n 1` fill
 
 ## Experimental:
 # There is this program called azote that does the same as the above but with GUI.
@@ -323,17 +325,17 @@ bindsym $mod+Ctrl+9 move container to workspace $ws9
 bindsym $mod+Ctrl+0 move container to workspace $ws10 
 #; workspace $ws0
 
-# Move Focused Window Arrow Keys
-bindsym $mod+Shift+left move left
-bindsym $mod+Shift+down move down
-bindsym $mod+Shift+up move up
-bindsym $mod+Shift+right move right
+# Move Focused Window Arrow Keys while mantaining focus
+bindsym $mod+Shift+left mark swap, focus left, swap container with mark swap, exec "~/.config/sway/scripts/window-changer/sway_alt_tab" 
+bindsym $mod+Shift+down mark swap, focus down, swap container with mark swap, exec "~/.config/sway/scripts/window-changer/sway_alt_tab"
+bindsym $mod+Shift+up mark swap, focus down, swap container with mark swap, exec "~/.config/sway/scripts/window-changer/sway_alt_tab"
+bindsym $mod+Shift+right mark swap, focus right, swap container with mark swap, exec "~/.config/sway/scripts/window-changer/sway_alt_tab"
 
-# Move Focused Window wsad
-bindsym $mod+Shift+a move left
-bindsym $mod+Shift+s move down
-bindsym $mod+Shift+w move up
-bindsym $mod+Shift+d move right
+# Move Focused Window wsad while mantaining focus
+bindsym $mod+Shift+a mark swap, focus left, swap container with mark swap, exec "~/.config/sway/scripts/window-changer/sway_alt_tab" 
+bindsym $mod+Shift+s mark swap, focus up, swap container with mark swap, exec "~/.config/sway/scripts/window-changer/sway_alt_tab"
+bindsym $mod+Shift+w mark swap, focus down, swap container with mark swap, exec "~/.config/sway/scripts/window-changer/sway_alt_tab"
+bindsym $mod+Shift+d mark swap, focus right, swap container with mark swap, exec "~/.config/sway/scripts/window-changer/sway_alt_tab"
 
 bindsym $mod+k layout toggle split
 
@@ -363,8 +365,13 @@ mode "resize" {
 #bindsym $mod+Shift+h workspace $ws8 ; exec wl-mirror HEADLESS-1 ; workspace $ws9 
 #bindsym $mod+Ctrl+h workspace 8 ; workspace 9
 #bindsym $mod+Ctrl+h exec pkill wl-mirror ; workspace back_and_forth
-bindsym mod1+Tab workspace back_and_forth
+# bindsym mod1+Tab workspace back_and_forth
+#bindsym mod1+Tab workspace back_and_forth
 bindsym $mod+Tab workspace back_and_forth
+
+bindsym mod1+Tab exec ~/.config/sway/scripts/window-changer/sway_alt_tab 
+bindsym $mod+i exec ~/.config/sway/scripts/window-changer/sway_alt_tab 
+
 
 ## Disabled Hotkeys:
 # to disable back and forth

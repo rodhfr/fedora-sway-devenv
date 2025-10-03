@@ -1,0 +1,11 @@
+- name: Set nautilus as default file manager for directories
+  become: false
+  community.general.xdg_mime:
+    mime_type: inode/directory
+    handler: nautilus.desktop
+
+- name: Set nautilus-open-any-terminal to use alacritty
+  become: false
+  community.general.dconf:
+    key: /com/github/stunkymonkey/nautilus-open-any-terminal/terminal
+    value: "'alacritty'"

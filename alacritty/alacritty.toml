@@ -11,15 +11,10 @@ size = 14
 [font.normal]
 family = "CaskaydiaCove Nerd Font Mono"
 
-
 [keyboard]
 bindings = [
-  { key = ".", mods = "Control", chars = "cd ..\neza\n" },
-  { key = "L", mods = "Control", chars = "eza\n" },
   { key = "W", mods = "Control|Shift", chars = "| wl-copy\n" },
-  { key = "P", mods = "Control|Shift", chars = "pwd | wl-copy\n" },
   { key = "N", mods = "Control|Shift", chars = "nautilus . > /dev/null 2>&1 &; disown && exit\n" },
-  { key = "S", mods = "Control|Shift", chars = "/bin/bash /home/rodhfr/.config/alacritty/celularssh.shexit\n"},
   { key = "Return", mods = "Control|Shift", action = "SpawnNewInstance" }
 ]
 

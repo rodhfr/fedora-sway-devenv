@@ -1,0 +1,22 @@
+- name: Ensure /etc/keyd directory exists
+  become: true
+  ansible.builtin.file:
+    path: /etc/keyd
+    state: directory
+    mode: '0755'
+
+- name: Copy keyd config
+  become: true
+  ansible.builtin.copy:
+    src: "{{ lookup('env', 'HOME') }}/.config/keyd/default.conf"
+    dest: /etc/keyd/default.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Enable and start keyd service
+  become: true
+  ansible.builtin.systemd:
+    name: keyd
+    enabled: true
+    state: started

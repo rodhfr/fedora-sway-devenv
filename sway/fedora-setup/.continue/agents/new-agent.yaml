@@ -1,0 +1,21 @@
+name: Intranet Agent
+version: 1.0.0
+schema: v1
+
+# Models define which AI models this agent can use
+# https://docs.continue.dev/customization/models
+models:
+  - name: Qwen2.5-Coder 1.5B
+    provider: ollama
+    model: AUTODETECT
+    apiBase: http://stationwagon:11434
+    roles: 
+    - chat
+    - autocomplete
+    - edit
+    - apply
+    - rerank
+
+  - uses: google/gemini-2.5-pro
+    with:
+      GEMINI_API_KEY: AIzaSyAti6Ztblow7YsuXp4pF5EBSQOw5c4-iSg

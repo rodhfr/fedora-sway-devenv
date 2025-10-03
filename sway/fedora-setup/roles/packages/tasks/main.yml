@@ -1,0 +1,61 @@
+- name: Update system packages
+  ansible.builtin.dnf:
+    name: "*"
+    state: present
+    update_cache: true
+
+- name: Enable required copr repos
+  community.general.copr:
+    name: "{{ item }}"
+    state: enabled
+  loop: "{{ copr_repos }}"
+
+- name: Install RPM Fusion free and nonfree repositories
+  become: true
+  ansible.builtin.dnf:
+    name:
+      - "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_facts['distribution_major_version'] }}.noarch.rpm"
+      - "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_facts['distribution_major_version'] }}.noarch.rpm"
+    state: present
+
+- name: Install dnf packages
+  ansible.builtin.dnf:
+    name: "{{ dnf_packages }}"
+    state: present
+
+- name: Swap ffmpeg-free for ffmpeg (RPM Fusion)
+  ansible.builtin.dnf:
+    name:
+      - ffmpeg
+    state: present
+    allowerasing: true
+
+- name: Update multimedia group, exclude PackageKit-gstreamer-plugin
+  ansible.builtin.dnf:
+    name: "@multimedia"
+    state: latest
+    update_only: true
+    install_weak_deps: false
+    exclude: PackageKit-gstreamer-plugin
+
+- name: Install all firmware packages from rpmfusion-nonfree-tainted
+  become: true
+  ansible.builtin.dnf:
+    name: "*-firmware"
+    state: present
+    disablerepo: "*"
+    enablerepo: rpmfusion-nonfree-tainted
+
+- name: Download rustup installer script
+  ansible.builtin.get_url:
+    url: https://sh.rustup.rs
+    dest: /tmp/rustup-init.sh
+    mode: '0755'
+
+- name: Install Rust using rustup
+  ansible.builtin.shell: |
+    set -o pipefail
+    sh /tmp/rustup-init.sh -y
+  args:
+    creates: /home/{{ ansible_user_id }}/.cargo/bin/rustc
+  become: false

@@ -93,7 +93,6 @@ sudo dnf install vulkan-devel -y
 sudo dnf install solaar solaar-udev -y
 sudo dnf install dejavu-sans-fonts -y
 sudo dnf install ventoy -y
-sudo dnf install -y
 sudo dnf install waybar -y
 sudo dnf install wl-clipboard -y
 sudo dnf install kitty -y
