@@ -7,11 +7,11 @@
     gesture2-divert, gesture2-params, sidetone, equalizer, adc_power_management]
   _battery: 4100
   _modelId: B03600000000
-  _sensitive: {dpi: false}
+  _sensitive: {divert-keys: true, dpi: true, lowres-scroll-mode: true}
   _unitId: 6809647C
   change-host: null
   divert-keys: {82: 0}
-  dpi: 2000
+  dpi: 1300
   lowres-scroll-mode: false
   reprogrammable-keys: {82: 82}
 - _NAME: Pebble Keys 2 K380s

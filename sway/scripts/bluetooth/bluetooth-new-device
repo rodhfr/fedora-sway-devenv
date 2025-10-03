@@ -1,0 +1,61 @@
+#!/bin/bash
+DEVICE_LINE=$(bluetoothctl devices | fzf --prompt "Select bluetooth audio device: ")
+
+if [ -z "$DEVICE_LINE" ]; then
+    echo "Nenhum dispositivo selecionado. Saindo..."
+    exit 1
+fi
+
+DEVICE_MAC=$(echo "$DEVICE_LINE" | awk '{print $2}')
+DEVICE_NAME=$(echo "$DEVICE_LINE" | cut -d ' ' -f3-)
+# sanitize for file renaming
+SAFE_NAME=$(echo "$DEVICE_NAME" | tr ' ' '_' | tr -cd '[:alnum:]_.-')
+DEVICE_SINK="bluez_output.${DEVICE_MAC//:/_}.1"
+
+mkdir -p "$HOME/.config/sway/bluetooth/connect/"
+cat <<EOF > "$HOME/.config/sway/bluetooth/connect/$SAFE_NAME"
+
+NAME="$DEVICE_NAME"
+SINK_NAME="$DEVICE_SINK"
+MAC_ADDRESS="$DEVICE_MAC"
+# To discover sinks:
+# pactl list short sinks 
+
+echo "Setting \$SINK_NAME as default sink."
+
+notify-send -t 4000 "Bluetooth" "🔄 Tentando conectar ao \$MAC_ADDRESS..."
+
+# Captura a saída da tentativa de conexão
+OUTPUT=\$(bluetoothctl <<< "connect \$MAC_ADDRESS")
+
+sleep 3
+
+pactl set-default-sink "\$SINK_NAME"
+notify-send -t 4000 "Bluetooth" "✅ \$NAME conectado e setado como saída padrão!"
+EOF
+
+mkdir -p "$HOME/.config/sway/bluetooth/disconnect/"
+cat <<EOF > "$HOME/.config/sway/bluetooth/disconnect/$SAFE_NAME"
+
+NAME="$DEVICE_NAME"
+SINK_NAME="$DEVICE_SINK"
+MAC_ADDRESS="$DEVICE_MAC"
+# To discover sinks:
+# pactl list short sinks 
+
+echo "Setting \$SINK_NAME as default sink."
+
+notify-send -t 4000 "Bluetooth" "🔄 Tentando conectar ao \$MAC_ADDRESS..."
+
+# Captura a saída da tentativa de conexão
+OUTPUT=\$(bluetoothctl <<< "connect \$MAC_ADDRESS")
+
+sleep 3
+
+pactl set-default-sink "\$SINK_NAME"
+notify-send -t 4000 "Bluetooth" "✅ \$NAME conectado e setado como saída padrão!"
+EOF
+
+chmod +x "$HOME/.config/sway/bluetooth/connect/$SAFE_NAME"
+chmod +x "$HOME/.config/sway/bluetooth/disconnect/$SAFE_NAME"
+

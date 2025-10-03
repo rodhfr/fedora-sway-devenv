@@ -1,0 +1,22 @@
+#!/bin/bash
+
+DEVICE="41:42:47:97:29:75"
+
+NAME=$(bluetoothctl info $DEVICE| grep -i "Name" | awk -F "Name: " '{print $2}')
+SINK_NAME="bluez_output.${DEVICE//:/_}.1"
+# output e pra ser bluez_output.41_42_47_97_29_75.1
+# pactl list short sinks
+#
+echo "$SINK_NAME"
+
+notify-send -t 4000 "Bluetooth" "🔄 Tentando conectar ao $NAME..."
+
+# Captura a saída da tentativa de conexão
+#OUTPUT=$(bluetoothctl <<< "connect $DEVICE")
+
+sleep 3
+
+pactl set-default-sink "$SINK_NAME"
+notify-send -t 4000 "Bluetooth" "✅ $NAME conectado e setado como saída padrão!"
+
+

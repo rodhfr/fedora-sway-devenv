@@ -107,7 +107,7 @@ workspace 10 output eDP-1
 set $wallpapers_path ~/.config/Wallpapers
 # Randomly select a wallpaper from the folder $wallpapers_path
 output * bg `find $wallpapers_path -type f | shuf -n 1` fill
-bindsym $mod+Shift+w output * bg `find $wallpapers_path -type f | shuf -n 1` fill
+#bindsym $mod+Shift+w output * bg `find $wallpapers_path -type f | shuf -n 1` fill
 
 ## Experimental:
 # There is this program called azote that does the same as the above but with GUI.
@@ -132,7 +132,7 @@ for_window [app_id="org.gnome.Nautilus"] move --no-auto-back-and-forth container
 for_window [app_id="de.schmidhuberj.tubefeeder"] move --no-auto-back-and-forth container to workspace 1
 for_window [class="Spotify"] move --no-auto-back-and-forth container to workspace 5
 for_window [class="BoltLauncher"] move --no-auto-back-and-forth container to workspace 9
-for_window [class="net-runelite-client-RuneLite"] move --no-auto-back-and-forth container to workspace 9
+#for_window [class="net-runelite-client-RuneLite"] move --no-auto-back-and-forth container to workspace 9
 for_window [class="Rustdesk"] move --no-auto-back-and-forth container to workspace 8
 for_window [class="Code"] move --no-auto-back-and-forth container to workspace 4
 for_window [class="discord"] move --no-auto-back-and-forth container to workspace 6
@@ -215,9 +215,10 @@ bindsym $mod+Ctrl+g exec dim -d 0 -p -a -0.025
 #bindsym Shift+9 exec playerctl previous
 # bindsym $mod+Shift+b exec ~/.config/sway/bluetooth/connect/qcyt13anc
 # bindsym $mod+Ctrl+b exec ~/.config/sway/bluetooth/disconnect/qcyt13anc
-#bindsym $mod+Shift+s exec ~/.config/sway/bluetooth/connect/bls-b21  
-#bindsym $mod+Ctrl+s exec ~/.config/sway/bluetooth/disconnect/bls-b21
+bindsym $mod+Shift+h exec ~/.config/sway/bluetooth/connect/qcyh3lite
+bindsym $mod+Ctrl+h exec ~/.config/sway/bluetooth/disconnect/qcyh3lite
 
+ 
 ### DISABLED 
 # Xkill Mode
 # bindsym $mod+x mode "xkill"
@@ -260,7 +261,7 @@ bindsym $mod+s focus down
 # Toggle Fullscreen Current Window
 bindsym $mod+Shift+f fullscreen toggle
 # Toggle Between Floating and Tilling
-bindsym $mod+k floating toggle, sticky disable
+#bindsym $mod+k floating toggle, sticky disable
 # Picture in Picture
 #bindsym $mod+Ctrl+p sticky enable, floating enable, resize set width 400px height 225px, move position 1500 10
 bindsym $mod+Ctrl+r sticky enable, floating enable, resize set width 400px height 225px, move position 1600 80
@@ -322,6 +323,20 @@ bindsym $mod+Ctrl+9 move container to workspace $ws9
 bindsym $mod+Ctrl+0 move container to workspace $ws10 
 #; workspace $ws0
 
+# Move Focused Window Arrow Keys
+bindsym $mod+Shift+left move left
+bindsym $mod+Shift+down move down
+bindsym $mod+Shift+up move up
+bindsym $mod+Shift+right move right
+
+# Move Focused Window wsad
+bindsym $mod+Shift+a move left
+bindsym $mod+Shift+s move down
+bindsym $mod+Shift+w move up
+bindsym $mod+Shift+d move right
+
+bindsym $mod+k layout toggle split
+
 # Resize Mode
 bindsym $mod+r mode "resize"
 # resize window (you can also use the mouse for that)
@@ -357,11 +372,6 @@ bindsym $mod+Tab workspace back_and_forth
 # bindsym $mod+2 workspace --no-auto-back-and-forth 2
 # bindsym $mod+3 workspace --no-auto-back-and-forth 3
 
-# Move Focused Window
-# bindsym $mod+Shift+a move left
-# bindsym $mod+Shift+w move down
-# bindsym $mod+Shift+d move up
-# bindsym $mod+Shift+s move right
 
 # Split in Horizontal Orientation
 #bindsym $mod+b split h 
@@ -416,7 +426,8 @@ bindsym $mod+n exec swaync-client -t
 # Launch Bluetooth Manager
 bindsym $mod+b exec blueman-manager
 ## Screenshot
-bindsym $mod+Shift+p exec grim -g "$(slurp)" ~/Pictures/screenshot_$(date +%Y%m%d%H%M%S).png && notify-send -t 4000 "📷 Saved to ~/Pictures"
+#bindsym $mod+Shift+p exec IMGPATH=~/Pictures/screenshot_$(date +%Y%m%d%H%M%S).png && grim -g "$(slurp)" $IMGPATH && notify-send -t 4000 "📷 Saved to ~/Pictures" && kdeconnect-cli -d $(kdeconnect-cli -a --id-only | head -n 1) --share $IMGPATH
+bindsym $mod+Shift+p exec sh -c 'IMGPATH="$HOME/Pictures/screenshot_$(date +%Y%m%d%H%M%S).png" && grim -g "$(slurp)" "$IMGPATH" && notify-send -t 4000 "📷 Saved to $IMGPATH" && kdeconnect-cli -d "$(kdeconnect-cli -a --id-only | head -n 1)" --share "$IMGPATH"'
 #bindsym F9 exec grim -g "$(slurp)" ~/Pictures/screenshot_$(date +%Y%m%d%H%M%S).png && notify-send -t 4000 "📷 Saved to ~/Pictures"
 bindsym $mod+p exec grim -g "$(slurp)" - | wl-copy && notify-send -t 4000 "📷   Copied to Clipboard" 
 bindsym $mod+Ctrl+p exec notify-send -t 4000 "🎨 Select Hex Colour" && grim -g "$(slurp -p)" -t ppm - | convert - -format '%[pixel:p{0,0}]' txt:- | tail -n 1 | cut -d ' ' -f 4 | wl-copy && notify-send -t 4000 "🎨 Grepped to Clipboard"
@@ -429,7 +440,7 @@ bindsym $mod+y exec $tty -e nvim -n ~/.note-swap.md
 bindsym $mod+Shift+y workspace --no-auto-back-and-forth 3 ; exec $tty -e nvim -n ~/.config/sway/config
 bindsym $mod+Shift+Control+s exec $SCRCPYCMD
 # Htop 
-bindsym $mod+Shift+h exec $tty -e htop 
+bindsym $mod+h exec $tty -e htop 
 # floating terminal
 #bindsym $mod+t exec $tty --class floatingterm
 #bindsym $mod+t exec 'swaymsg "[app_id=\"floatingterm\"] kill" || alacritty --class floatingterm
@@ -440,7 +451,7 @@ bindsym $mod+m exec ~/.config/sway/scripts/paste_mpv
 ### Disabled Launcher Hotkeys
 ## Sharing
 #bindsym $mod+Shift+s exec flatpak run io.github.sigmasd.share
-bindsym $mod+shift+s exec ~/.config/sway/scripts/share
+#bindsym $mod+shift+s exec ~/.config/sway/scripts/share
 
 
 # Snippet Selector

@@ -1,0 +1,18 @@
+
+NAME="QCY H3 Lite"
+SINK_NAME="bluez_output.84_AC_60_C6_E7_A1.1"
+MAC_ADDRESS="84:AC:60:C6:E7:A1"
+# To discover sinks:
+# pactl list short sinks 
+
+echo "Setting $SINK_NAME as default sink."
+
+notify-send -t 4000 "Bluetooth" "🔄 Tentando conectar ao $MAC_ADDRESS..."
+
+# Captura a saída da tentativa de conexão
+OUTPUT=$(bluetoothctl <<< "connect $MAC_ADDRESS")
+
+sleep 3
+
+pactl set-default-sink "$SINK_NAME"
+notify-send -t 4000 "Bluetooth" "✅ $NAME conectado e setado como saída padrão!"

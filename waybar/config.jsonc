@@ -10,10 +10,10 @@
         "sway/workspaces",
         "sway/mode",
         "sway/scratchpad",
-        "custom/media",
-        "custom/previous",
-        "custom/play-pause",
-        "custom/next"
+        "custom/media"
+        //"custom/previous",
+        //"custom/play-pause",
+        //"custom/next"
         //"custom/previous",
         //"custom/play-pause",
         //"custom/next"
@@ -25,6 +25,7 @@
     ],
     "modules-right": [
         //"idle_inhibitor",
+        "custom/bluetooth_selector",
         "custom/bluetooth_battery",
         "pulseaudio",
         "network",
@@ -77,32 +78,6 @@
         "format-icons": ["", ""],
         "tooltip": true,
         "tooltip-format": "{app}: {title}"
-    },
-    "mpd": {
-        "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
-        "format-disconnected": "Disconnected ",
-        "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
-        "unknown-tag": "N/A",
-        "interval": 5,
-        "consume-icons": {
-            "on": " "
-        },
-        "random-icons": {
-            "off": "<span color=\"#f53c3c\"></span> ",
-            "on": " "
-        },
-        "repeat-icons": {
-            "on": " "
-        },
-        "single-icons": {
-            "on": "1 "
-        },
-        "state-icons": {
-            "paused": "",
-            "playing": ""
-        },
-        "tooltip-format": "MPD (connected)",
-        "tooltip-format-disconnected": "MPD (disconnected)"
     },
     "idle_inhibitor": {
         "format": "{icon}",
@@ -211,6 +186,11 @@
         "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null", // Script in resources folder
         "all-outputs": true
     },
+    "custom/bluetooth_selector": {
+        "on-click": "$HOME/.config/sway/bluetooth/connect/QCY_H3_Lite",
+        "on-click-right": "$HOME/.config/sway/bluetooth/disconnect/qcyh3lite",
+        "format": "QCY_H3"
+    },
     "custom/play-pause": {
     "exec": "$HOME/.config/waybar/modules/compiled_modules/media_widgets/play-pause",
     "escape": true,
@@ -243,30 +223,30 @@
 			"suspend": "systemctl suspend",
 			"hibernate": "systemctl hibernate"
 		}
-    },
-    "custom/hp_bar": {
-    "exec": "~/.config/waybar/modules/osrs/hp_bar.sh",
-    "interval": 1,
-    "format": "{}",
-    "escape": false   // Permite HTML (p/ colorir)
-    },
-    "custom/prayer_bar": {
-    "exec": "~/.config/waybar/modules/osrs/prayer_bar.sh",
-    "interval": 1,
-    "format": "{}",
-    "escape": false   // Permite HTML (p/ colorir)
-    },
-    "custom/bluetooth_battery": {
-    "format": "{}",
-    "return-type": "json",
-    "interval": 360,
-    "exec": "~/.config/waybar/modules/bluetooth-battery.sh",
-    "on-click": "blueman-manager"
-    },
-    "custom/inventory": {
-    "exec": "~/.config/waybar/modules/osrs/inventory.sh",
-    "interval": 1,
-    "format": "{}",
-    "return-type": "json"
+//    },
+//    "custom/hp_bar": {
+//    "exec": "~/.config/waybar/modules/osrs/hp_bar.sh",
+//    "interval": 1,
+//    "format": "{}",
+//    "escape": false   // Permite HTML (p/ colorir)
+//    },
+//    "custom/prayer_bar": {
+//    "exec": "~/.config/waybar/modules/osrs/prayer_bar.sh",
+//    "interval": 1,
+//    "format": "{}",
+//    "escape": false   // Permite HTML (p/ colorir)
+//    },
+//    "custom/bluetooth_battery": {
+//    "format": "{}",
+//    "return-type": "json",
+//    "interval": 360,
+//    "exec": "~/.config/waybar/modules/bluetooth-battery.sh",
+//    "on-click": "blueman-manager"
+//    },
+//    "custom/inventory": {
+//    "exec": "~/.config/waybar/modules/osrs/inventory.sh",
+//    "interval": 1,
+//    "format": "{}",
+//    "return-type": "json"
     }
 }

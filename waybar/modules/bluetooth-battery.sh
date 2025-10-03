@@ -1,6 +1,7 @@
 #!/bin/bash
 
-device_name=$(bluetoothctl info | grep -i "Name" | awk '{ print $2 }')
+device_name=$(bluetoothctl info | grep -i "Name" | awk -F "Name: " '{print $2}')
+
 shopt -s nocasematch
 if [[ $device_name == *pebble* ]]; then
     exit 1
@@ -35,3 +36,5 @@ if [ -z "$device_battery" ]; then
 fi
 
 echo "{\"text\": \"$output_battery\", \"tooltip\": \"$tooltip\"}"
+
+exit 0

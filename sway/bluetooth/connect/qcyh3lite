@@ -1,0 +1,18 @@
+#!/bin/bash
+
+DEVICE="84:AC:60:C6:E7:A1"
+
+NAME="QCY H3 Lite"
+SINK_NAME="bluez_output.$DEVICE.1"
+
+notify-send -t 4000 "Bluetooth" "🔄 Tentando conectar ao $NAME..."
+
+# Captura a saída da tentativa de conexão
+OUTPUT=$(bluetoothctl <<< "connect $DEVICE")
+
+sleep 3
+
+pactl set-default-sink "$SINK_NAME"
+notify-send -t 4000 "Bluetooth" "✅ $NAME conectado e setado como saída padrão!"
+
+

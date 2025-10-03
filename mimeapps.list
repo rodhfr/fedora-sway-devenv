@@ -2,7 +2,24 @@
 inode/directory=nautilus.desktop
 video/x-matroska=mpv.desktop
 application/pdf=org.mozilla.firefox.desktop
+video/mp4=mpv.desktop
+video/webm=mpv.desktop
+video/vnd.avi=mpv.desktop
+x-scheme-handler/hayase=hayase.desktop
+application/x-shellscript=org.gnome.gedit.desktop
+x-scheme-handler/shiru=shiru.desktop
+x-scheme-handler/magnet=shiru.desktop
+x-scheme-handler/discord-409416265891971072=discord-409416265891971072.desktop
+image/jpeg=org.gnome.Loupe.desktop
+image/png=org.gnome.Loupe.desktop
 
 [Added Associations]
-video/x-matroska=mpv.desktop;
+video/x-matroska=mpv.desktop;io.github.mpc_qt.mpc-qt.desktop;
 application/pdf=org.mozilla.firefox.desktop;
+video/mp4=mpv.desktop;
+video/webm=mpv.desktop;
+application/octet-stream=org.gnome.gedit.desktop;
+video/vnd.avi=mpv.desktop;
+application/x-shellscript=org.gnome.gedit.desktop;
+image/jpeg=org.gnome.Loupe.desktop;
+image/png=org.gnome.Loupe.desktop;

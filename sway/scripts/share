@@ -8,7 +8,8 @@ mkdir -p /tmp/kdeconnect-share
 TMPDIR=/tmp/kdeconnect-share/
 
 # Get the first connected device
-device=$(kdeconnect-cli -a --id-only | head -n 1)
+#device=$(kdeconnect-cli -a --id-only | head -n 1)
+device="5b47f0807d004996846d0673442f64b2"
 device_name=$(kdeconnect-cli -a --name-only | head -n 1)
 
 # check if device is available

@@ -1,0 +1,18 @@
+
+NAME="SOUNDPEATS T3 Pro"
+SINK_NAME="bluez_output.41_42_47_97_29_75.1"
+MAC_ADDRESS="41:42:47:97:29:75"
+# To discover sinks:
+# pactl list short sinks 
+
+echo "Setting $SINK_NAME as default sink."
+
+notify-send -t 4000 "Bluetooth" "🔄 Tentando conectar ao $MAC_ADDRESS..."
+
+# Captura a saída da tentativa de conexão
+OUTPUT=$(bluetoothctl <<< "connect $MAC_ADDRESS")
+
+sleep 3
+
+pactl set-default-sink "$SINK_NAME"
+notify-send -t 4000 "Bluetooth" "✅ $NAME conectado e setado como saída padrão!"

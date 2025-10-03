@@ -1,1 +1,3 @@
-interface: wlo1
+interface: any
+port: 11717
+#fqdn: rodhfr.shop
