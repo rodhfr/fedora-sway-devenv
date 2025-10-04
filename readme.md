@@ -14,3 +14,5 @@ cp * ~/.config/
 sh ~/.config/sway/install-programs.sh
 ```
 
+### [WIP] Currently working on ansible playbook for this dotfiles
+
