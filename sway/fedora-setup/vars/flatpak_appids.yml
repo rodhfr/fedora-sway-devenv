@@ -1,0 +1,20 @@
+flatpak_apps:
+  - it.mijorus.gearlever
+  - com.adamcake.Bolt
+  - com.bitwarden.desktop
+  - com.spotify.Client
+  - org.gnome.Loupe
+  - org.gnome.Crosswords
+  - org.qbittorrent.qBittorrent
+  - io.github.josephmawa.Bella
+  - com.discordapp.Discord
+  - com.github.iwalton3.jellyfin-media-player
+  - io.github.getnf.embellish
+  - org.libreoffice.LibreOffice
+  - com.belmoussaoui.Decoder
+  - net.ankiweb.Anki
+  - com.stremio.Stremio
+  - com.github.tchx84.Flatseal
+  - io.github.flattool.Warehouse
+  - io.github.giantpinkrobots.flatsweep
+  - net.sourceforge.gMKVExtractGUI

@@ -1,0 +1,26 @@
+
+name: Local Wings Agent
+version: 1.0.0
+schema: v1
+
+# Models define which AI models this agent can use
+# https://docs.continue.dev/customization/models
+models:
+
+  - uses: google/gemini-2.5-pro
+    with:
+      GEMINI_API_KEY: AIzaSyCP5_w-Lbms7J5HYzBGqRnJ4Q8-Fi0o-xA
+
+  - uses: google/gemini-2.0-flash
+    with:
+      GEMINI_API_KEY: AIzaSyAti6Ztblow7YsuXp4pF5EBSQOw5c4-iSg
+
+  - name: Autodetect
+    provider: ollama
+    model: AUTODETECT
+    roles: 
+    - chat
+    - autocomplete
+    - edit
+    - apply
+    - rerank

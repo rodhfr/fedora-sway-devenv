@@ -1,0 +1,84 @@
+- name: DNF5 Packaging Setup
+  hosts: local
+  become: true
+  vars_files:
+    - vars/dnf_packages.yml
+  tasks:
+    - name: Gather package facts
+      ansible.builtin.setup:
+        filter: ansible_facts.packages
+
+    - name: Update system packages
+      ansible.builtin.dnf:
+        name: "*"
+        state: present
+        update_cache: true
+
+    - name: Enable required copr repos
+      community.general.copr:
+        name: "{{ item }}"
+        state: enabled
+      loop: "{{ copr_repos }}"
+      when: item not in ansible_facts.packages
+
+    - name: Install RPM Fusion free and nonfree packages
+      become: true
+      ansible.builtin.dnf:
+        name:
+          - "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_facts['distribution_major_version'] }}.noarch.rpm"
+          - "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_facts['distribution_major_version'] }}.noarch.rpm"
+        state: present
+        when: "'rpmfusion-nonfree-release' is not in ansible_facts.packages"
+
+    - name: Swap ffmpeg-free for ffmpeg (RPM Fusion)
+      ansible.builtin.dnf:
+        name:
+          - ffmpeg
+        state: present
+        allowerasing: true
+
+    - name: Update multimedia group, exclude PackageKit-gstreamer-plugin
+      ansible.builtin.dnf:
+        name: "@multimedia"
+        state: latest
+        update_only: true
+        install_weak_deps: false
+        exclude: PackageKit-gstreamer-plugin
+
+    - name: Install all firmware packages from rpmfusion-nonfree-tainted
+      become: true
+      ansible.builtin.dnf:
+        name: "*-firmware"
+        state: present
+        disablerepo: "*"
+        enablerepo: rpmfusion-nonfree-tainted
+
+    - name: Create list of packages to be installed
+      ansible.builtin.set_fact:
+        packaging_packages_to_install: "{{ dnf_packages | difference(ansible_facts.packages | keys) | list }}"
+
+    - name: Install dnf packages (in batch)
+      ansible.builtin.dnf:
+        name: "{{ packages_to_install }}"
+        state: present
+      when: packages_to_install | length > 0
+
+    - name: Check if cargo is installed
+      ansible.builtin.stat:
+        path: /home/{{ ansible_user_id }}/.cargo/bin/cargo
+      register: packaging_packages_cargo_exists
+
+    - name: Download rustup installer script
+      ansible.builtin.get_url:
+        url: https://sh.rustup.rs
+        dest: /tmp/rustup-init.sh
+        mode: '0755'
+      when: not packages_cargo_exists.stat.exists
+
+    - name: Install Rust using rustup
+      ansible.builtin.shell: |
+        sh /tmp/rustup-init.sh -y
+      args:
+        creates: /home/{{ ansible_user_id }}/.cargo/bin/rustc
+      become: false
+      when: not packages_cargo_exists.stat.exists

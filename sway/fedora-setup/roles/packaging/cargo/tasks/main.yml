@@ -1,0 +1,11 @@
+---
+- name: Ensure cargo is installed
+  become: true
+  ansible.builtin.package:
+    name: cargo
+    state: present
+
+- name: Install cargo packages
+  community.general.cargo:
+    name: "{{ cargo_packages }}"
+  when: cargo_packages is defined

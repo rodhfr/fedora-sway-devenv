@@ -130,16 +130,17 @@ for_window [app_id="floatingterm"] floating enable, border normal, resize set wi
 #for_window [title="^Picture in Picture$" class="net-runelite-client-RuneLite"] floating enable, sticky enable, move position 1465 0
 for_window [title="Picture-in-Picture"]  floating enable, border pixel 1
 #for_window [app_id="firefox" title="Picture-in-Picture"] floating enable, resize set width 600 px height 300 px, move position 830 px 565 px, sticky on
-for_window [app_id="org.gnome.Nautilus"] move --no-auto-back-and-forth container to workspace 7
+for_window [app_id="org.gnome.Nautilus"] move --no-auto-back-and-forth container to workspace 7 
 for_window [app_id="de.schmidhuberj.tubefeeder"] move --no-auto-back-and-forth container to workspace 1
 for_window [class="Spotify"] move --no-auto-back-and-forth container to workspace 5
-for_window [class="BoltLauncher"] move --no-auto-back-and-forth container to workspace 9
+for_window [class="BoltLauncher"] move --no-auto-back-and-forth container to workspace 9 
 #for_window [class="net-runelite-client-RuneLite"] move --no-auto-back-and-forth container to workspace 9
 for_window [class="Rustdesk"] move --no-auto-back-and-forth container to workspace 8
 for_window [class="Code"] move --no-auto-back-and-forth container to workspace 4
 for_window [class="discord"] move --no-auto-back-and-forth container to workspace 6
 
-#for_window [class="Alacritty"] move --no-auto-back-and-forth container to workspace 3
+focus_on_window_activation focus
+
 
 
 

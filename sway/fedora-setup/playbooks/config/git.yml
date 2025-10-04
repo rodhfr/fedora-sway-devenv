@@ -1,0 +1,26 @@
+- name: Git Configuration
+  hosts: local
+  become: true
+  vars_files:
+    - vars/user_credentials.yml
+  tasks:
+    - name: Set Git username
+      community.general.git_config:
+        name: user.name
+        scope: global
+        value: "{{ user_name }}"
+        state: present
+
+    - name: Set Git user.email
+      community.general.git_config:
+        name: user.email
+        scope: global
+        value: "{{ user_email }}"
+        state: present
+
+    - name: Set Git credential helper to store
+      community.general.git_config:
+        name: credential.helper
+        scope: global
+        value: store
+        state: present

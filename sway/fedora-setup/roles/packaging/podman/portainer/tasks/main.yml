@@ -1,0 +1,23 @@
+- name: Ensure portainer_data volume exists
+  become: true
+  containers.podman.podman_volume:
+    name: portainer_data
+    state: present
+
+- name: Run Portainer container
+  become: true
+  containers.podman.podman_container:
+    name: portainer
+    image: portainer/portainer-ce:lts
+    state: started
+    restart_policy: always
+    ports:
+      - "8000:8000"
+      - "9443:9443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+- name: Show Portainer login info
+  ansible.builtin.debug:
+    msg: "Setup Login in Portainer: https://localhost:9443"

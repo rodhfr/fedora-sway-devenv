@@ -1,0 +1,10 @@
+- name: Fish Shell Configuration
+  hosts: local
+  become: true
+  tasks:
+    - name: Ensure autojump is sourced in fish config
+      ansible.builtin.lineinfile:
+        path: "{{ lookup('env','HOME') }}/.config/fish/config.fish"
+        line: "source /usr/share/autojump/autojump.fish"
+        create: true
+

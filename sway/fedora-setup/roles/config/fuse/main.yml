@@ -1,0 +1,23 @@
+- name: Configure fuse.conf and display it
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Ensure user_allow_other is present in /etc/fuse.conf
+      ansible.builtin.lineinfile:
+        path: /etc/fuse.conf
+        line: "user_allow_other"
+        state: present
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Get the content of /etc/fuse.conf
+      ansible.builtin.command:
+        cmd: cat /etc/fuse.conf
+      register: fuse_conf_content
+      changed_when: false
+
+    - name: Display the content of /etc/fuse.conf
+      ansible.builtin.debug:
+        var: fuse_conf_content.stdout_lines

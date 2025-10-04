@@ -1,0 +1,30 @@
+- name: SSH Configuration
+  hosts: local
+  become: true
+  tasks:
+    - name: Ensure SSH key exists
+      community.crypto.openssh_keypair:
+        path: "{{ ansible_user_dir }}/.ssh/id_ed25519"
+        type: ed25519
+        state: present
+      become: false
+
+    - name: Start and enable sshd service
+      become: true
+      ansible.builtin.systemd:
+        name: sshd
+        enabled: true
+        state: started
+
+    - name: Allow SSH through the firewall
+      become: true
+      ansible.posix.firewalld:
+        service: ssh
+        permanent: true
+        state: enabled
+
+    - name: Reload firewalld
+      become: true
+      ansible.builtin.systemd:
+        name: firewalld
+        state: restarted
