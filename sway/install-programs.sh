@@ -1,5 +1,6 @@
 #!/bin/bash
 ## ENV VARIABLES ##
+trap 'echo "Saindo..."; exit 1' SIGINT
 while true; do sudo -v; sleep 60; done 2>/dev/null &
 export PATH="$HOME/.atuin/bin:$PATH"
 sudo usermod -aG pkg-build $USER
