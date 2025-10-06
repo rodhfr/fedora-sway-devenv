@@ -7,12 +7,16 @@
   
 ### Install Script
 ```bash
+sudo -v
+trap 'echo "exiting.."; exit 1' SIGINT
 sudo dnf install git -y
+cd "$HOME"
 git clone https://github.com/rodhfr/sway-devenv-dotfiles.git 
-cd sway-devenv-dotfiles 
-cp -rf * ~/.config/
-sh ~/.config/sway/install-programs.sh
+cd "$HOME/sway-devenv-dotfiles"
+cp -rf * "$HOME/.config/"
+sudo sh "$HOME/.config/sway/install-programs.sh"
 ```
+or if you prefer a a single line curl
 
 ### [WIP] Currently working on ansible playbook for this dotfiles
 
