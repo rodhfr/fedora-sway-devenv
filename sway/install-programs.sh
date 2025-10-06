@@ -4,6 +4,8 @@ while true; do sudo -v; sleep 60; done 2>/dev/null &
 export PATH="$HOME/.atuin/bin:$PATH"
 sudo usermod -aG pkg-build $USER
 newgrp
+GIT_USER_EMAIL="souzafrodolfo@gmail.com" # this is only for setup git --global username and email
+GIT_USERNAME="Rodolfo Franca" # change for your own otherwise your git commits would be signed in my name
 
 # CHECK SYSTEM VERSION
 # Read Fedora version from /etc/fedora-release
@@ -18,10 +20,6 @@ else
     exit 1
 fi
 
-# this is only for setup git --global username and email
-# change for your own otherwise your git commits would be signed in my name
-USER_EMAIL="souzafrodolfo@gmail.com"
-USER_NAME="Rodolfo Franca"
 
 # DNF INSTALLATION 
 #	copr enable wezfurlong/wezterm-nightly \
@@ -175,8 +173,8 @@ done
 # symlinks
 
 # Git Setup
-git config --global user.email "$USER_EMAIL"
-git config --global user.name "$USER_NAME"
+git config --global user.email "$GIT_USER_EMAIL"
+git config --global user.name "$GIT_USERNAME"
 
 # PYTHON REPO INSTALL
 pip3 install pipx 
@@ -193,7 +191,7 @@ echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com
 dnf check-update
 sudo dnf install code -y
 
-# REBOOT LOGIC
+# READ TO UNDERSTAND REBOOT LOGIC:
 # If lockfile missing => first run, create lockfile and reboot
 # If lockfile exists => script resumed after reboot, continue installation
 
@@ -206,24 +204,12 @@ then
 else
     echo "Lockfile not found. Creating and rebooting..."
     touch "$LOCKFILE"
-#sync: Forces all pending disk writes to be flushed from memory to disk. This ensures no data is lost if the system reboots immediately.
-    sync && systemctl reboot 
+    sync && systemctl reboot #sync: Forces all pending disk writes to be flushed from memory to disk. This ensures no data is lost if the system reboots immediately.
 fi
 
 ### Flatpak Installation
 echo "Already rebooted, installation continues..."
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-# flatpak install flathub org.freedesktop.Platform.VulkanLayer.gamescope -y
-# flathub com.github.mtkennerly.ludusavi -y
-# flathub org.freedesktop.Platform.VulkanLayer.MangoHud -y
-# flatpak override --filesystem=xdg-config/MangoHud:ro
-#flatpak install flathub io.github.josephmawa.TextCompare -y
-#flatpak install flathub com.rtosta.zapzap -y
-#flatpak install flathub io.github.sigmasd.share -y
-#flatpak install flathub org.freedesktop.Sdk.Extension.mono6//24.08 -y
-#flatpak install flathub io.gitlab.liferooter.TextPieces -y 
-#flatpak install org.torproject.torbrowser-launcher -y
-#flatpak install flathub io.github.plrigaux.sysd-manager -y
 #sudo flatpak install https://flatpak.nils.moe/repo/appstream/net.sourceforge.gMKVExtractGUI.flatpakref -y
 
 apps=(
@@ -251,13 +237,12 @@ for app in "${apps[@]}"; do
     flatpak install -y flathub "$app"
 done
 
-
 # Systemd Services
 
 keys=($HOME/.ssh/id_*)
 if [ ${#keys[@]} -eq 0 ] || [ ! -e "${keys[0]}" ]; then
-    echo "Nenhuma chave SSH encontrada, gerando..."
-    ssh-keygen
+    echo "No key found, generating..."
+    [ -f "$HOME/.ssh/id_ed25519.pub" ] || { mkdir -p "$HOME/.ssh" && chmod 700 "$HOME/.ssh" && ssh-keygen -t ed25519 -a 100 -f "$HOME/.ssh/id_ed25519" -N "" -q; }
 else
     echo "ssh key exists"
 fi
@@ -292,7 +277,6 @@ sudo firewall-cmd --reload
 # sudo systemctl enable docker.service
 # sudo systemctl enable containerd.service
 
-
 #### ENABLING SERVICES ####
 ## Portainer Setup ## 
 systemctl enable --now podman.socket
@@ -300,7 +284,6 @@ podman volume create portainer_data
 podman run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always --privileged -v /run/podman/podman.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:lts
 echo "Setup Login in Portainer: https://localhost:9443"
 
-sudo systemctl enable keyd
 ### setup xdg-desktop-portal ###
 # https://gist.github.com/rodhfr/181a0bee00ad5f7a608bc3e1bd021be5
 GTK_PORTAL="/usr/share/xdg-desktop-portal/portals/gtk.portal"
@@ -314,8 +297,8 @@ echo "user_allow_other" | sudo tee -a /etc/fuse.conf
 cat /etc/fuse.conf
 
 ### CLIPBOARD SAVER
-sudo chmod +x /home/rodhfr/.config/sway/cliphistbinary
-sudo ln -s /home/rodhfr/.config/sway/cliphistbinary /usr/bin/cliphist
+sudo chmod +x /home/rodhfr/.config/sway/clipboard/cliphistbinary
+sudo ln -s /home/rodhfr/.config/sway/clipboard/cliphistbinary /usr/bin/cliphist
 ls -l /usr/bin/cliphist
 cliphist
 
@@ -324,17 +307,17 @@ sudo ln -s /home/rodhfr/.cargo/bin/lan-mouse /usr/bin/lan-mouse
 
 systemctl --user daemon-reload
 systemctl --user enable --now lan-mouse.service
-systemctl --user status lan-mouse.service
+systemctl --user status --no-pager lan-mouse.service
 
 # KDE CONNECT SERVICE
 systemctl --user daemon-reload
 systemctl --user enable --now kdeconnect.service
-systemctl --user status kdeconnect.service
+systemctl --user status --no-pager kdeconnect.service
 
 # KEYD SERVICE
 sudo mkdir -p /etc/keyd
 sudo ln -s ~/.config/keyd/default.conf /etc/keyd/default.conf
 sudo systemctl enable --now keyd
-sudo systemctl status keyd
+sudo systemctl status --no-pager keyd
 
 

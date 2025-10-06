@@ -11,8 +11,6 @@ if status is-interactive
     set -x XDG_SESSION_DESKTOP sway   # systemd
     set -x XDG_SESSION_TYPE wayland
 
-end
-
-
-
 source /usr/share/autojump/autojump.fish
+
+end
