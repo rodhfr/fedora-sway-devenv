@@ -15,7 +15,7 @@ family = "CaskaydiaCove Nerd Font Mono"
 bindings = [
   { key = "W", mods = "Control", chars = "| wl-copy\n" },
   { key = "N", mods = "Control", chars = "nautilus . > /dev/null 2>&1 &; disown && exit\n" },
-  { key = "N", mods = "Control|Shift", chars = "nautilus . > /dev/null 2>&1 &; disown && exit\n" },
+  { key = "N", mods = "Control|Shift", chars = "nautilus . > /dev/null 2>&1 &; disown & swaymsg workspace 7 && exit\n" },
   { key = "Return", mods = "Control|Shift", action = "SpawnNewInstance" },
   { key = "Return", mods = "Control", action = "SpawnNewInstance" }
 ]

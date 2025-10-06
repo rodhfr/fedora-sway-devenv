@@ -64,7 +64,6 @@ exec wl-paste --watch cliphist store
 exec wl-paste --type image --watch cliphist store
 #exec snapserver -d
 #exec clipse -listen
-exec kdeconnectd
 
 ## AUDIO 
 # auto start bluetooth speakers

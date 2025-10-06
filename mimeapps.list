@@ -12,6 +12,7 @@ x-scheme-handler/magnet=shiru.desktop
 x-scheme-handler/discord-409416265891971072=discord-409416265891971072.desktop
 image/jpeg=org.gnome.Loupe.desktop
 image/png=org.gnome.Loupe.desktop
+devpod=dev-pod-desktop-handler.desktop
 
 [Added Associations]
 video/x-matroska=mpv.desktop;io.github.mpc_qt.mpc-qt.desktop;
