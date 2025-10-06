@@ -10,7 +10,7 @@
 sudo dnf install git -y
 git clone https://github.com/rodhfr/sway-devenv-dotfiles.git 
 cd sway-devenv-dotfiles 
-cp * ~/.config/
+cp -rf * ~/.config/
 sh ~/.config/sway/install-programs.sh
 ```
 

@@ -1,0 +1,11 @@
+[Unit]
+Description=Kde Connect Service
+After=graphical-session.target
+BindsTo=graphical-session.target
+
+[Service]
+ExecStart=/usr/bin/kdeconnectd
+Restart=on-failure
+
+[Install]
+WantedBy=graphical-session.target

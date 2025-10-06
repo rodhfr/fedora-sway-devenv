@@ -1,0 +1,14 @@
+[Unit]
+Description=Librespot Spotify Connect (user)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+ExecStartPre=/usr/bin/nm-online -q
+ExecStart=/home/rodhfr/.cargo/bin/librespot -n "Librespot Speaker" -b 320
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
+
