@@ -301,3 +301,21 @@ systemctl --user daemon-reload
 systemctl --user enable --now lan-mouse.service
 systemctl --user status lan-mouse.service
 
+# KDE CONNECT SERVICE
+# /home/rodhfr/.config/systemd/user/kdeconnect.service
+# [Unit]
+# Description=Kde Connect Service
+# After=graphical-session.target
+# BindsTo=graphical-session.target
+#
+# [Service]
+# ExecStart=/usr/bin/kdeconnectd
+# Restart=on-failure
+#
+# [Install]
+# WantedBy=graphical-session.target
+
+systemctl --user daemon-reload
+systemctl --user enable --now kdeconnect.service
+systemctl --user status kdeconnect.service
+
