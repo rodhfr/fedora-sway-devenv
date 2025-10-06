@@ -33,6 +33,7 @@ sudo dnf install gvfs-mtp -y
 sudo dnf install hugo -y
 sudo dnf install autojump-fish -y
 sudo dnf install xone lpf-xone-firmware -y
+sudo dnf install libadwaita-devel -y
 sudo dnf install nmap -y
 sudo dnf install nautilus-open-any-terminal -y
 # sudo dnf install tesseract-osd -y
@@ -40,6 +41,7 @@ sudo dnf install xdg-desktop-portal-wlr -y
 sudo dnf install scrcpy -y
 sudo dnf install ocrmypdf -y
 sudo dnf install libssl-devel -y
+sudo dnf install webkit2gtk4.1 webkit2gtk4.1-devel libEGL libGL -y
 sudo dnf install gamemode -y
 # sudo dnf install tesseract-langpack-jpn.noarch -y
 # sudo dnf install tesseract-langpack-jpn_vert.noarch -y
@@ -274,4 +276,28 @@ sudo ln -s /home/rodhfr/.config/sway/cliphistbinary /usr/bin/cliphist
 ls -l /usr/bin/cliphist
 cliphist
 
+
+cargo install lan-mouse
+sudo ln -s /home/rodhfr/.cargo/bin/lan-mouse /usr/bin/lan-mouse
+
+# need to install systemd service
+#
+# ~/.config/systemd/user/lan-mouse.service
+# [Unit]
+# Description=Lan Mouse
+# # lan mouse needs an active graphical session
+# After=graphical-session.target
+# # make sure the service terminates with the graphical session
+# BindsTo=graphical-session.target
+#
+# [Service]
+# ExecStart=/usr/bin/lan-mouse -d
+# Restart=on-failure
+#
+# [Install]
+# WantedBy=graphical-session.target
+
+systemctl --user daemon-reload
+systemctl --user enable --now lan-mouse.service
+systemctl --user status lan-mouse.service
 

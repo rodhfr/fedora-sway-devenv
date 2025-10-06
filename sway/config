@@ -139,6 +139,12 @@ for_window [class="Rustdesk"] move --no-auto-back-and-forth container to workspa
 for_window [class="Code"] move --no-auto-back-and-forth container to workspace 4
 for_window [class="discord"] move --no-auto-back-and-forth container to workspace 6
 
+# Specific windows
+for_window [app_id="de.feschber.LanMouse"] move --no-auto-back-and-forth container to workspace "conn"
+for_window [app_id="rustdesk"] move --no-auto-back-and-forth container to workspace "remote"
+for_window [app_id="org.kde.kdeconnect.app"] move --no-auto-back-and-forth container to workspace "conn"
+
+
 focus_on_window_activation focus
 
 
