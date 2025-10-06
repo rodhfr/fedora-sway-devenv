@@ -28,6 +28,9 @@ fi
 #   Baobab \
 #   @virtualization
 # steam \
+#	gamemode 
+	# install tesseract-langpack-jpn.noarch \
+	# install tesseract-langpack-jpn_vert.noarch \
 
 sudo dnf up -y
 
@@ -43,6 +46,7 @@ sudo dnf copr enable -y \
 
 lpf approve xone-firmware
 lpf build xone-firmware
+
 sudo dnf install -y \ 
 	gvfs-mtp \
 	hugo \
@@ -62,9 +66,6 @@ sudo dnf install -y \
 	webkit2gtk4.1-devel \
 	libEGL \
 	libGL \
-	gamemode \
-	install tesseract-langpack-jpn.noarch \
-	install tesseract-langpack-jpn_vert.noarch \
 	poetry \
 	fzf \
 	google-noto-emoji-fonts \
@@ -152,12 +153,10 @@ bash <(curl --proto '=https' --tlsv1.2 -sSf https://setup.atuin.sh)
 atuin import auto
 atuin sync
 
-# AUTOJUMP FISH
-echo 'source /usr/share/autojump/autojump.fish' >> ~/.config/fish/config.fish
 source ~/.config/fish/config.fish
 
 # BASHRC
-cp ~/.config/sway/bashrc ~/.bashrc
+cp -rf ~/.config/sway/bashrc ~/.bashrc
 source ~/.bashrc
 
 # MEMORY VISUALIZER TOOL GDU
