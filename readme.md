@@ -16,7 +16,10 @@ cd "$HOME/sway-devenv-dotfiles"
 cp -rf * "$HOME/.config/"
 sudo sh "$HOME/.config/sway/install-programs.sh"
 ```
-or if you prefer a a single line curl
+Or if you prefer a a single line curl
+```bash
+curl -fsSL 'https://github.com/rodhfr/fedora-sway-devenv/blob/main/install-helper.sh' | sudo bash
+```
 
 ### [WIP] Currently working on ansible playbook for this dotfiles
 
