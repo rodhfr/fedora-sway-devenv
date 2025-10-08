@@ -1,0 +1,42 @@
+{
+	"name": "Vimium C",
+	"@time": "10/7/2025, 9:49:45 PM",
+	"time": 1759884585960,
+	"environment": {
+		"extension": "2.12.3",
+		"platform": "linux",
+		"firefox": 143
+	},
+	"keyLayout": 2,
+	"keyMappings": [
+		"#!no-check",
+		"map W previousTab",
+		"map S nextTab",
+		"",
+		"map a goBack",
+		"map d goForward",
+		"map w scrollUp",
+		"map s scrollDown",
+		"map q scrollPageUp",
+		"map e scrollPageDown",
+		"",
+		"",
+		"",
+		"map b scrollPageDown",
+		"",
+		"",
+		"map <a-tab> visitPreviousTab",
+		"",
+		"",
+		"map P openCopiedUrlInNewTab",
+		"unmap r",
+		"unmap m",
+		"map t Vomnibar.activateInNewTab",
+		"map o Vomnibar.activate",
+		"map h Vomnibar.activate",
+		"unmap i",
+		""
+	],
+	"linkHintCharacters": "qwertasdfgzxcvb",
+	"vimSync": true
+}
