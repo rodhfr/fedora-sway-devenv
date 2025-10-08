@@ -55,6 +55,7 @@ sudo dnf install -y \
 	autojump-fish \
 	xone lpf-xone-firmware \
 	libadwaita-devel \
+    axel \
 	nmap \
 	nautilus-open-any-terminal \
 	xdg-desktop-portal-wlr \
@@ -151,10 +152,10 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 # TERMINAL SETUP 
 bash <(curl --proto '=https' --tlsv1.2 -sSf https://setup.atuin.sh)
 #atuin register -u rodhfr -e souzafrodolfo@gmail.com
-atuin import auto
-atuin sync
+# atuin import auto
+# atuin sync
 
-source ~/.config/fish/config.fish
+source "$HOME/.config/fish/config.fish"
 
 # BASHRC
 cp -rf ~/.config/sway/bashrc ~/.bashrc
@@ -279,9 +280,13 @@ sudo firewall-cmd --reload
 
 #### ENABLING SERVICES ####
 ## Portainer Setup ## 
+podman ps
+podman rm -f portainer
 systemctl enable --now podman.socket
 podman volume create portainer_data
+podman volume prune -f
 podman run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always --privileged -v /run/podman/podman.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:lts
+podman ps
 echo "Setup Login in Portainer: https://localhost:9443"
 
 ### setup xdg-desktop-portal ###
